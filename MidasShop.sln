@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Data", "MidasShopSolution.Data\MidasShopSolution.Data.csproj", "{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Application", "MidasShopSolution.Application\MidasShopSolution.Application.csproj", "{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{259EC6B3-47BE-4C34-BDE5-A0C490134FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{259EC6B3-47BE-4C34-BDE5-A0C490134FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{259EC6B3-47BE-4C34-BDE5-A0C490134FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
