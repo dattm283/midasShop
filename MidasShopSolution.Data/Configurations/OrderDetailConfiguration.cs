@@ -4,7 +4,7 @@ using MidasShopSolution.Data.Entites;
 
 namespace MidasShopSolution.Data.Configurations;
 
-public class OrderDetailsConfiguration : IEntityTypeConfiguration<OrderDetail>
+public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
 {
     public void Configure(EntityTypeBuilder<OrderDetail> builder)
     {
