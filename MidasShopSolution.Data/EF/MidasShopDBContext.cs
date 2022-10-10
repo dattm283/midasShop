@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MidasShopSolution.Data.Configurations;
 using MidasShopSolution.Data.Entites;
 
 namespace MidasShopSolution.Data.EF;
@@ -7,6 +8,20 @@ public class MidasShopDbContext : DbContext
 {
     public MidasShopDbContext(DbContextOptions options) : base(options)
     {
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
+        
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
+        
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+
+        //base.OnModelCreating(modelBuilder);
     }
 
     public DbSet<Product> Products { get; set; }

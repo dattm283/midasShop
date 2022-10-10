@@ -10,4 +10,5 @@ public class OrderDetail
     public Order Order { get; set; }
 
     public Product Product { get; set; }
+    public List<OrderDetail>OrderDetails { get; set; }
 }
