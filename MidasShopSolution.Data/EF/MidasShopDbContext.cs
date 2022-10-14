@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.Configurations;
 using MidasShopSolution.Data.Entites;
@@ -5,7 +7,7 @@ using MidasShopSolution.Data.Extensions;
 
 namespace MidasShopSolution.Data.EF;
 
-public class MidasShopDbContext : DbContext
+public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 {
     public MidasShopDbContext(DbContextOptions options) : base(options)
     {
@@ -34,6 +36,28 @@ public class MidasShopDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
 
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
+        modelBuilder
+            .Entity<IdentityUserClaim<Guid>>()
+            .ToTable("UserClaims");
+        modelBuilder
+            .Entity<IdentityUserRole<Guid>>()
+            .ToTable("UserRoles")
+            .HasKey(iur => new { iur.RoleId, iur.UserId });
+        modelBuilder.Entity<IdentityUserLogin<Guid>>()
+            .ToTable("UserLogins")
+            .HasKey(iul => iul.UserId);
+
+        modelBuilder
+            .Entity<IdentityRoleClaim<Guid>>()
+            .ToTable("RoleClaims");
+        modelBuilder
+            .Entity<IdentityUserToken<Guid>>()
+            .ToTable("UserTokens")
+            .HasKey(iut => iut.UserId);
 
         // Data seeding
         modelBuilder.Seed();

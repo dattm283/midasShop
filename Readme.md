@@ -6,5 +6,6 @@
 - Microsoft.EntityFrameworkCore.SqlSever
 - Microsoft.EntityFrameworkCore.Tools
 - Microsoft.EntityFrameworkCore.Design
+- Microsoft.AspNetCore.Identity.EntityFrameworkCore
 ## How to configure and run
 ## How to contribute
