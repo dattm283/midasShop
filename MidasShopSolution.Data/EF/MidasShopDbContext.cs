@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.Configurations;
 using MidasShopSolution.Data.Entites;
+using MidasShopSolution.Data.Extensions;
 
 namespace MidasShopSolution.Data.EF;
 
@@ -12,6 +13,7 @@ public class MidasShopDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Configure unsing fluent API
         modelBuilder.ApplyConfiguration(new CartConfiguration());
 
         modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
@@ -32,6 +34,9 @@ public class MidasShopDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
 
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+        // Data seeding
+        modelBuilder.Seed();
     }
 
     public DbSet<Product> Products { get; set; }
