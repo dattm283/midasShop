@@ -32,5 +32,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .Property(t => t.ShipPhoneNumber)
             .IsRequired()
             .HasMaxLength(200);
+        builder
+            .HasOne(o => o.User)
+            .WithMany(u => u.Orders)
+            .HasForeignKey(o => o.UserId);
     }
 }

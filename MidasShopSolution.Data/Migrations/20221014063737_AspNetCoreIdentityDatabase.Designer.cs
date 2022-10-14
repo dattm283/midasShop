@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MidasShopSolution.Data.EF;
 
@@ -11,9 +12,10 @@ using MidasShopSolution.Data.EF;
 namespace MidasShopSolution.Data.Migrations
 {
     [DbContext(typeof(MidasShopDbContext))]
-    partial class MidasShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014063737_AspNetCoreIdentityDatabase")]
+    partial class AspNetCoreIdentityDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,13 +99,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.HasKey("RoleId", "UserId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = new Guid("8256ee14-c826-4e80-83de-d467eb4ee1e7"),
-                            UserId = new Guid("84d35d2a-8eef-4497-95f7-3b32bdf64546")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -400,7 +395,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 10, 14, 13, 48, 51, 412, DateTimeKind.Local).AddTicks(945));
+                        .HasDefaultValue(new DateTime(2022, 10, 14, 13, 37, 36, 995, DateTimeKind.Local).AddTicks(2738));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -500,7 +495,7 @@ namespace MidasShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 10, 14, 13, 48, 51, 429, DateTimeKind.Local).AddTicks(6702),
+                            DateCreated = new DateTime(2022, 10, 14, 13, 37, 36, 999, DateTimeKind.Local).AddTicks(4891),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -675,16 +670,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8256ee14-c826-4e80-83de-d467eb4ee1e7"),
-                            ConcurrencyStamp = "53298b47-ad5a-48d3-8b3c-ff3987058832",
-                            Description = "Administrator role",
-                            Name = "admin",
-                            NormalizedName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Transaction", b =>
@@ -797,27 +782,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("84d35d2a-8eef-4497-95f7-3b32bdf64546"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c1a3a7d-82e0-46e8-a522-c4c99a2d82b1",
-                            Dob = new DateTime(2001, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "dattranadmin@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Dat",
-                            LastName = "Tran",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "dattranadmin@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEHcg9GX5uzBh0iaDLP9cnmuBFVV7fCDAiUCcBKRkFJ2qIDesORGM94XvYRHWj1aVg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Cart", b =>

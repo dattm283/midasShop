@@ -13,5 +13,9 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder
             .Property(t => t.Id)
             .UseIdentityColumn();
+        builder
+            .HasOne(t => t.User)
+            .WithMany(u => u.Transactions)
+            .HasForeignKey(t => t.UserId);
     }
 }

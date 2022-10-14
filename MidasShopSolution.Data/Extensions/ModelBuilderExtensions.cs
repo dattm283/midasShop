@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.Entites;
 using MidasShopSolution.Data.Enums;
@@ -143,5 +144,37 @@ public static class ModelBuilderExtensions
                 ProductId = 1,
                 CategoryId = 1,
             });
+
+        var roleId = new Guid("8256EE14-C826-4E80-83DE-D467EB4EE1E7");
+        var adminId = new Guid("84D35D2A-8EEF-4497-95F7-3B32BDF64546");
+        modelBuilder.Entity<Role>().HasData(new Role
+        {
+            Id = roleId,
+            Name = "admin",
+            NormalizedName = "admin",
+            Description = "Administrator role"
+        });
+
+        var hasher = new PasswordHasher<User>();
+        modelBuilder.Entity<User>().HasData(new User
+        {
+            Id = adminId,
+            UserName = "admin",
+            NormalizedUserName = "admin",
+            Email = "dattranadmin@gmail.com",
+            NormalizedEmail = "dattranadmin@gmail.com",
+            EmailConfirmed = true,
+            PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+            SecurityStamp = string.Empty,
+            FirstName = "Dat",
+            LastName = "Tran",
+            Dob = new DateTime(2001, 03, 28)
+        });
+
+        modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+        {
+            RoleId = roleId,
+            UserId = adminId
+        });
     }
 }
