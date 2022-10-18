@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Data", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Application", "MidasShopSolution.Application\MidasShopSolution.Application.csproj", "{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Utilities", "MidasShopSolution.Utilities\MidasShopSolution.Utilities.csproj", "{41A2456B-3B2A-473E-80BE-20BCECA4EF7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BFA686-83C8-4DF2-B1BC-8DD0049B455E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A2456B-3B2A-473E-80BE-20BCECA4EF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A2456B-3B2A-473E-80BE-20BCECA4EF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A2456B-3B2A-473E-80BE-20BCECA4EF7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A2456B-3B2A-473E-80BE-20BCECA4EF7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
