@@ -17,9 +17,9 @@ public class MangageProductService : IManageProductService
         _context = context;
     }
 
-    public async Task AddViewCount(int ProductId)
+    public async Task AddViewCount(int productId)
     {
-        var product = await _context.Products.FindAsync(ProductId);
+        var product = await _context.Products.FindAsync(productId);
         product.ViewCount += 1;
         await _context.SaveChangesAsync();
     }
@@ -133,17 +133,11 @@ public class MangageProductService : IManageProductService
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateStock(int ProductId, int addedQuantity)
+    public async Task<bool> UpdateStock(int productId, int addedQuantity)
     {
         var product = await _context.Products.FindAsync(productId);
         if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
         product.Stock += addedQuantity;
         return await _context.SaveChangesAsync() > 0;
-    }
-
-
-    public async Task<List<ProductViewModel>> GetAll()
-    {
-        throw new NotImplementedException();
     }
 }
