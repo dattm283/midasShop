@@ -50,13 +50,24 @@ public class MangageProductService: IManageProductService
 
     public async Task<int> Update(ProductUpdateRequest request)
     {
-        throw new NotImplementedException();
+        var product = await _context.Products.FindAsync(request.Id);
+        var productTranslations = await _context.ProductTranslations.FirstOrDefaultAsync(pt => pt.ProductId == request.Id && pt.LanguageId == request.LanguageId);
+        if (product == null || productTranslations == null) throw new MidasShopException($"Cannot find a product with id: {request.Id}");
+        
+        productTranslations.Name = request.Name;
+        productTranslations.Description = request.Description;
+        productTranslations.Details = request.Details;
+        productTranslations.SeoDescription = request.SeoDescription;
+        productTranslations.SeoAlias = request.SeoAlias;
+        productTranslations.SeoTitle = request.SeoTitle;
+        productTranslations.LanguageId = request.LanguageId;
+        return await _context.SaveChangesAsync();
     }
 
     public async Task<int> Delete(int ProductId)
     {
         var product = await _context.Products.FindAsync(ProductId);
-        if (product == null) throw new MidasShopException($"Cannot find a product: {ProductId}");
+        if (product == null) throw new MidasShopException($"Cannot find a product with Id: {ProductId}");
         _context.Products.Remove(product);
         return await _context.SaveChangesAsync();
     }
