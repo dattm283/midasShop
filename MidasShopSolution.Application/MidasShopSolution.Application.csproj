@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\MidasShopSolution.Data\MidasShopSolution.Data.csproj" />
       <ProjectReference Include="..\MidasShopSolution.Utilities\MidasShopSolution.Utilities.csproj" />
+      <ProjectReference Include="..\MidasShopSolution.ViewModels\MidasShopSolution.ViewModels.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using MidasShopSolution.Application.Catalog.Products.Dtos;
-using MidasShopSolution.Application.Catalog.Products.Dtos.Public;
-using MidasShopSolution.Application.Dtos;
 using MidasShopSolution.Data.EF;
+using MidasShopSolution.ViewModels.Catalog.Products;
+using MidasShopSolution.ViewModels.Catalog.Products.Public;
+using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 
-public class PublicProductService : IPublicProductService
+public class PublicProductService: IPublicProductService
 {
     private readonly MidasShopDbContext _context;
 

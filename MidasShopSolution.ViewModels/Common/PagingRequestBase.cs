@@ -1,4 +1,4 @@
-namespace MidasShopSolution.Application.Dtos;
+namespace MidasShopSolution.ViewModels.Common;
 
 public class PagingRequestBase
 {

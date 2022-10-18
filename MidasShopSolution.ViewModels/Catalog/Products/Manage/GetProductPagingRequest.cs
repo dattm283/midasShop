@@ -1,6 +1,6 @@
-using MidasShopSolution.Application.Dtos;
+using MidasShopSolution.ViewModels.Common;
 
-namespace MidasShopSolution.Application.Catalog.Products.Dtos.Manage;
+namespace MidasShopSolution.ViewModels.Catalog.Products.Manage;
 
 public class GetProductPagingRequest: PagingRequestBase
 {

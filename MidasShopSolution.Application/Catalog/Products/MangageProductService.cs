@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using MidasShopSolution.Application.Catalog.Products.Dtos;
-using MidasShopSolution.Application.Catalog.Products.Dtos.Manage;
-using MidasShopSolution.Application.Dtos;
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.Data.Entites;
 using MidasShopSolution.Utilities.Exceptions;
+using MidasShopSolution.ViewModels.Catalog.Products;
+using MidasShopSolution.ViewModels.Catalog.Products.Manage;
+using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 

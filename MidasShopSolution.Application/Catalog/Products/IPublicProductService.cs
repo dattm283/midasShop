@@ -1,6 +1,6 @@
-using MidasShopSolution.Application.Catalog.Products.Dtos;
-using MidasShopSolution.Application.Catalog.Products.Dtos.Public;
-using MidasShopSolution.Application.Dtos;
+using MidasShopSolution.ViewModels.Catalog.Products;
+using MidasShopSolution.ViewModels.Catalog.Products.Public;
+using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 

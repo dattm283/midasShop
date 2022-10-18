@@ -1,4 +1,4 @@
-namespace MidasShopSolution.Application.Catalog.Products.Dtos.Manage;
+namespace MidasShopSolution.ViewModels.Catalog.Products.Manage;
 
 public class ProductCreateRequest
 {
@@ -17,4 +17,5 @@ public class ProductCreateRequest
 
     public string SeoAlias { get; set; }
     public string LanguageId { get; set; }
+
 }
