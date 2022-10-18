@@ -8,19 +8,22 @@ using MidasShopSolution.Utilities.Exceptions;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 
-public class MangageProductService: IManageProductService
+public class MangageProductService : IManageProductService
 {
     private readonly MidasShopDbContext _context;
+
     public MangageProductService(MidasShopDbContext context)
     {
         _context = context;
     }
+
     public async Task AddViewCount(int ProductId)
     {
         var product = await _context.Products.FindAsync(ProductId);
         product.ViewCount += 1;
         await _context.SaveChangesAsync();
     }
+
     public async Task<int> Create(ProductCreateRequest request)
     {
         var product = new Product()
@@ -51,9 +54,11 @@ public class MangageProductService: IManageProductService
     public async Task<int> Update(ProductUpdateRequest request)
     {
         var product = await _context.Products.FindAsync(request.Id);
-        var productTranslations = await _context.ProductTranslations.FirstOrDefaultAsync(pt => pt.ProductId == request.Id && pt.LanguageId == request.LanguageId);
-        if (product == null || productTranslations == null) throw new MidasShopException($"Cannot find a product with id: {request.Id}");
-        
+        var productTranslations = await _context.ProductTranslations.FirstOrDefaultAsync(pt =>
+            pt.ProductId == request.Id && pt.LanguageId == request.LanguageId);
+        if (product == null || productTranslations == null)
+            throw new MidasShopException($"Cannot find a product with id: {request.Id}");
+
         productTranslations.Name = request.Name;
         productTranslations.Description = request.Description;
         productTranslations.Details = request.Details;
@@ -80,7 +85,7 @@ public class MangageProductService: IManageProductService
             join pic in _context.ProductInCategories on p.Id equals pic.ProductId
             join c in _context.Categories on pic.CategoryId equals c.Id
             select new { p, pt, pic };
-        
+
         // 2. Filter
         if (!string.IsNullOrEmpty(request.Keyword))
             query = query.Where(x => x.pt.Name.Contains(request.Keyword));
@@ -88,11 +93,11 @@ public class MangageProductService: IManageProductService
         {
             query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
         }
-        
+
         // 3. Paging
         int totalRow = await query.CountAsync();
 
-        var data = await query.Skip((request.PageIndex - 1)* request.PageSize)
+        var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)
             .Select(x => new ProductViewModel()
             {
@@ -109,7 +114,7 @@ public class MangageProductService: IManageProductService
                 SeoTitle = x.pt.SeoTitle,
                 ViewCount = x.p.ViewCount
             }).ToListAsync();
-        
+
         // 4. Select and projection
         var pagedResult = new PagedResult<ProductViewModel>()
         {
@@ -118,9 +123,14 @@ public class MangageProductService: IManageProductService
         };
         return pagedResult;
     }
-    public Task<bool> UpdatePrice(int ProductId, decimal newPrice)
+
+    public async Task<bool> UpdatePrice(int productId, decimal newPrice)
     {
-        throw new NotImplementedException();
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
+
+        product.Price = newPrice;
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public Task<bool> UpdateStock(int ProductId, int addedQuantity)
@@ -133,6 +143,4 @@ public class MangageProductService: IManageProductService
     {
         throw new NotImplementedException();
     }
-
-    
 }
