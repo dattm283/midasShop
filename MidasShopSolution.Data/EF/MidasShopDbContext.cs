@@ -15,7 +15,7 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configure unsing fluent API
+        // Configure using fluent API
         modelBuilder.ApplyConfiguration(new CartConfiguration());
 
         modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
@@ -39,6 +39,7 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
 
         modelBuilder
             .Entity<IdentityUserClaim<Guid>>()
@@ -87,4 +88,5 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
 
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; }
 }
