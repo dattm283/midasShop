@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.ViewModels.Catalog.Products;
-using MidasShopSolution.ViewModels.Catalog.Products.Public;
 using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 
-public class PublicProductService: IPublicProductService
+public class PublicProductService : IPublicProductService
 {
     private readonly MidasShopDbContext _context;
 
@@ -15,7 +14,7 @@ public class PublicProductService: IPublicProductService
         _context = context;
     }
 
-    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetProductPagingRequest request)
+    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
     {
         // 1. Select join
         var query = from p in _context.Products

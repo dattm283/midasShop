@@ -1,4 +1,4 @@
-namespace MidasShopSolution.ViewModels.Catalog.Products.Manage;
+namespace MidasShopSolution.ViewModels.Catalog.Products;
 
 public class ProductCreateRequest
 {
