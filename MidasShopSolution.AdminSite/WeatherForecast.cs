@@ -1,4 +1,4 @@
-namespace MidasShopSolution.Web;
+namespace MidasShopSolution.AdminSite;
 
 public class WeatherForecast
 {

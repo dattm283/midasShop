@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MidasShopSolution.Web.Controllers;
+namespace MidasShopSolution.AdminSite.Controllers;
 
 [ApiController]
 [Route("[controller]")]
