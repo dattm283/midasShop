@@ -6,4 +6,21 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MidasShopSolution.Application\MidasShopSolution.Application.csproj" />
+      <ProjectReference Include="..\MidasShopSolution.Data\MidasShopSolution.Data.csproj" />
+      <ProjectReference Include="..\MidasShopSolution.Utilities\MidasShopSolution.Utilities.csproj" />
+      <ProjectReference Include="..\MidasShopSolution.ViewModels\MidasShopSolution.ViewModels.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+    </ItemGroup>
+
 </Project>

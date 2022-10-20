@@ -19,5 +19,5 @@ public interface IManageProductService
 
     Task AddViewCount(int productId);
     
-    Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+    Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
 }
