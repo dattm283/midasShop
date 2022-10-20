@@ -398,9 +398,7 @@ namespace MidasShopSolution.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("OrderDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 10, 14, 13, 48, 51, 412, DateTimeKind.Local).AddTicks(945));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -500,12 +498,52 @@ namespace MidasShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 10, 14, 13, 48, 51, 429, DateTimeKind.Local).AddTicks(6702),
+                            DateCreated = new DateTime(2022, 10, 18, 13, 56, 19, 401, DateTimeKind.Local).AddTicks(9476),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
                             ViewCount = 0
                         });
+                });
+
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Caption")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductInCategory", b =>
@@ -680,7 +718,7 @@ namespace MidasShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8256ee14-c826-4e80-83de-d467eb4ee1e7"),
-                            ConcurrencyStamp = "53298b47-ad5a-48d3-8b3c-ff3987058832",
+                            ConcurrencyStamp = "d19c6591-1cf3-4391-ae1e-48a10b196e90",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -803,7 +841,7 @@ namespace MidasShopSolution.Data.Migrations
                         {
                             Id = new Guid("84d35d2a-8eef-4497-95f7-3b32bdf64546"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c1a3a7d-82e0-46e8-a522-c4c99a2d82b1",
+                            ConcurrencyStamp = "cd6aac90-a057-4ed5-a7ea-7a5aef7a4cc7",
                             Dob = new DateTime(2001, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "dattranadmin@gmail.com",
                             EmailConfirmed = true,
@@ -812,7 +850,7 @@ namespace MidasShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "dattranadmin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEHcg9GX5uzBh0iaDLP9cnmuBFVV7fCDAiUCcBKRkFJ2qIDesORGM94XvYRHWj1aVg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECrJt9/QDgMer+d5X2jInnLIG/kYFIW8RULuihnDHiRUykRaP8HGfq28eXx1q4wQVw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -888,6 +926,17 @@ namespace MidasShopSolution.Data.Migrations
                         .HasForeignKey("OrderDetailOrderId", "OrderDetailProductId");
 
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
+                {
+                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -970,6 +1019,8 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("Carts");
 
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("ProductImages");
 
                     b.Navigation("ProductInCategories");
 

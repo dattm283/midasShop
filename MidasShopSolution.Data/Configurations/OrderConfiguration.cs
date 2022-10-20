@@ -14,8 +14,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .Property(t => t.Id)
             .UseIdentityColumn();
         builder
-            .Property(t => t.OrderDate)
-            .HasDefaultValue(DateTime.Now);
+            .Property(t => t.OrderDate);
         builder
             .Property(t => t.ShipEmail)
             .IsRequired()
