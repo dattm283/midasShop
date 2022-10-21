@@ -8,11 +8,11 @@ using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
 
-public class MangageProductService : IManageProductService
+public class ManageProductService : IManageProductService
 {
     private readonly MidasShopDbContext _context;
 
-    public MangageProductService(MidasShopDbContext context)
+    public ManageProductService(MidasShopDbContext context)
     {
         _context = context;
     }
@@ -48,7 +48,8 @@ public class MangageProductService : IManageProductService
             }
         };
         _context.Products.Add(product);
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+        return product.Id;
     }
 
     public async Task<int> Update(ProductUpdateRequest request)
@@ -77,14 +78,40 @@ public class MangageProductService : IManageProductService
         return await _context.SaveChangesAsync();
     }
 
+    public async Task<ProductViewModel> GetById(int productId, string languageId)
+    {
+        var product = await _context.Products.FindAsync(productId);
+        var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(pt => pt.ProductId == productId
+            && pt.LanguageId == languageId);
+
+        var productViewModel = new ProductViewModel()
+        {
+            Id = product.Id,
+            DateCreated = product.DateCreated,
+            OriginalPrice = product.OriginalPrice,
+            Price = product.Price,
+            Stock = product.Stock,
+            ViewCount = product.ViewCount,
+
+            LanguageId = productTranslation.LanguageId,
+            Description = productTranslation != null ? productTranslation.Description : null,
+            Details = productTranslation != null ? productTranslation.Details : null,
+            Name = productTranslation != null ? productTranslation.Name : null,
+            SeoAlias = productTranslation != null ? productTranslation.SeoAlias : null,
+            SeoDescription = productTranslation != null ? productTranslation.SeoDescription : null,
+            SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null
+        };
+        return productViewModel;
+    }
+
     public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
     {
         // 1. Select join
         var query = from p in _context.Products
-            join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-            join pic in _context.ProductInCategories on p.Id equals pic.ProductId
-            join c in _context.Categories on pic.CategoryId equals c.Id
-            select new { p, pt, pic };
+                    join pt in _context.ProductTranslations on p.Id equals pt.ProductId
+                    join pic in _context.ProductInCategories on p.Id equals pic.ProductId
+                    join c in _context.Categories on pic.CategoryId equals c.Id
+                    select new { p, pt, pic };
 
         // 2. Filter
         if (!string.IsNullOrEmpty(request.Keyword))
