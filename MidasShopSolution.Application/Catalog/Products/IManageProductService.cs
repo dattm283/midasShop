@@ -8,7 +8,7 @@ public interface IManageProductService
     Task<int> Create(ProductCreateRequest request);
     Task<int> Update(ProductUpdateRequest request);
     Task<int> Delete(int productId);
-    Task<ProductViewModel> GetById(int productId, string languageId);
+    Task<ProductViewModel> GetById(int productId);
 
     Task<bool> UpdatePrice(int productId, decimal newPrice);
 

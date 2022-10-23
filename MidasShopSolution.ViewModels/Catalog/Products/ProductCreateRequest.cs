@@ -16,6 +16,4 @@ public class ProductCreateRequest
     public string SeoTitle { get; set; }
 
     public string SeoAlias { get; set; }
-    public string LanguageId { get; set; }
-
 }

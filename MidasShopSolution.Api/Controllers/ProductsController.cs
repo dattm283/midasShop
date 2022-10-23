@@ -18,18 +18,18 @@ public class ProductsController : ControllerBase
     }
 
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
-    [HttpGet("{languageId}")]
-    public async Task<IActionResult> GetAllPaging(string languageId, [FromQuery] GetPublicProductPagingRequest request)
+    [HttpGet]
+    public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
     {
-        var products = await _publicProductService.GetAllByCategoryId(languageId, request);
+        var products = await _publicProductService.GetAllByCategoryId(request);
         return Ok(products);
     }
 
-    // /products/:productId/:languageId
-    [HttpGet("{productId}/{languageId}")]
-    public async Task<IActionResult> GetById(int productId, string languageId)
+    // /products/:productId
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> GetById(int productId)
     {
-        var product = await _manageProductService.GetById(productId, languageId);
+        var product = await _manageProductService.GetById(productId);
         if (product == null)
             return BadRequest("Cannot find product");
         return Ok(product);
@@ -47,7 +47,7 @@ public class ProductsController : ControllerBase
         if (productId == 0)
             return BadRequest();
 
-        var product = await _manageProductService.GetById(productId, request.LanguageId);
+        var product = await _manageProductService.GetById(productId);
         return CreatedAtAction(nameof(GetById), new { id = productId }, product);
     }
 
