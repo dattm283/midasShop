@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.Configurations;
 using MidasShopSolution.Data.Entites;
-using MidasShopSolution.Data.Extensions;
 
 namespace MidasShopSolution.Data.EF;
 
@@ -18,11 +17,8 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
         // Configure using fluent API
         modelBuilder.ApplyConfiguration(new CartConfiguration());
 
-        modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
-
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
 
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
@@ -35,7 +31,6 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
 
-        modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
@@ -60,20 +55,14 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
             .ToTable("UserTokens")
             .HasKey(iut => iut.UserId);
 
-        // Data seeding
-        modelBuilder.Seed();
     }
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
 
-    public DbSet<AppConfig> AppConfigs { get; set; }
-
-
     public DbSet<Cart> Carts { get; set; }
 
     public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
-    public DbSet<ProductInCategory> ProductInCategories { get; set; }
 
     public DbSet<Contact> Contacts { get; set; }
 
@@ -87,6 +76,5 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Promotion> Promotions { get; set; }
 
 
-    public DbSet<Transaction> Transactions { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
 }

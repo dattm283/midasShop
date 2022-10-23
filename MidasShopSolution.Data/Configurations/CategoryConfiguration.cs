@@ -5,7 +5,7 @@ using MidasShopSolution.Data.Enums;
 
 namespace MidasShopSolution.Data.Configurations;
 
-public class CategoryConfiguration:IEntityTypeConfiguration<Category>
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
@@ -17,5 +17,6 @@ public class CategoryConfiguration:IEntityTypeConfiguration<Category>
 
 
         builder.Property(t => t.Status).HasDefaultValue(Status.Active);
+        // builder.HasOne(c => c.Product).WithMany(p => p.Categories);
     }
 }

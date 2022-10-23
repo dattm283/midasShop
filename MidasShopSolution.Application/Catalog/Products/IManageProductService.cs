@@ -1,7 +1,4 @@
-
-
 using MidasShopSolution.ViewModels.Catalog.Products;
-using MidasShopSolution.ViewModels.Catalog.Products.Manage;
 using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;

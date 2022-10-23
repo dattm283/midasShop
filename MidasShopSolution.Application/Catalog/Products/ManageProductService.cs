@@ -3,7 +3,6 @@ using MidasShopSolution.Data.EF;
 using MidasShopSolution.Data.Entites;
 using MidasShopSolution.Utilities.Exceptions;
 using MidasShopSolution.ViewModels.Catalog.Products;
-using MidasShopSolution.ViewModels.Catalog.Products.Manage;
 using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Application.Catalog.Products;
@@ -165,6 +164,14 @@ public class ManageProductService : IManageProductService
         var product = await _context.Products.FindAsync(productId);
         if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
         product.Stock += addedQuantity;
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateImage(int productId)
+    {
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
+
         return await _context.SaveChangesAsync() > 0;
     }
 }

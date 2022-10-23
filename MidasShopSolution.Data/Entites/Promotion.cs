@@ -11,7 +11,7 @@ public class Promotion
     public int? DiscountPercent { set; get; }
     public decimal? DiscountAmount { set; get; }
     public string ProductIds { set; get; }
-    public string ProductCategoryIds { set; get; }
+    public string CategoryIds { set; get; }
     public Status Status { set; get; }
     public string Name { set; get; }
 }

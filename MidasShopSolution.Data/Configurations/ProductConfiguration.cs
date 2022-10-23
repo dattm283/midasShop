@@ -16,5 +16,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(0);
         builder.Property(t => t.ViewCount).IsRequired()
             .HasDefaultValue(0);
+        // builder.HasOne(p => p.Category).WithMany(c => c.Products);
+
     }
 }

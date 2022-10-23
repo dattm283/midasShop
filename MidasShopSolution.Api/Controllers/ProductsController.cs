@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MidasShopSolution.Application.Catalog.Products;
 using MidasShopSolution.ViewModels.Catalog.Products;
-using MidasShopSolution.ViewModels.Catalog.Products.Manage;
 
 namespace MidasShopSolution.Api.Controllers;
 
