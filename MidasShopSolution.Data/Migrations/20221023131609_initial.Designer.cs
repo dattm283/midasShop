@@ -12,7 +12,7 @@ using MidasShopSolution.Data.EF;
 namespace MidasShopSolution.Data.Migrations
 {
     [DbContext(typeof(MidasShopDbContext))]
-    [Migration("20221023101012_initial")]
+    [Migration("20221023131609_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace MidasShopSolution.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -179,43 +179,13 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<bool>("IsShowOnHome")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.CategoryTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LanguageId")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SeoAlias")
                         .IsRequired()
@@ -232,13 +202,17 @@ namespace MidasShopSolution.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("CategoryTranslations", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Contact", b =>
@@ -274,26 +248,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contacts", (string)null);
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Language", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
@@ -381,11 +335,38 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SeoAlias")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("SeoDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Stock")
                         .ValueGeneratedOnAdd()
@@ -440,59 +421,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages", (string)null);
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("LanguageId")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SeoAlias")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("SeoDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeoTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductTranslations", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Promotion", b =>
@@ -663,25 +591,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.CategoryTranslation", b =>
-                {
-                    b.HasOne("MidasShopSolution.Data.Entites.Category", "Category")
-                        .WithMany("CategoryTranslations")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MidasShopSolution.Data.Entites.Language", "Language")
-                        .WithMany("CategoryTranslations")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Language");
-                });
-
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
                 {
                     b.HasOne("MidasShopSolution.Data.Entites.User", "User")
@@ -727,37 +636,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductTranslation", b =>
-                {
-                    b.HasOne("MidasShopSolution.Data.Entites.Language", "Language")
-                        .WithMany("ProductTranslations")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
-                        .WithMany("ProductTranslations")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Category", b =>
-                {
-                    b.Navigation("CategoryTranslations");
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Language", b =>
-                {
-                    b.Navigation("CategoryTranslations");
-
-                    b.Navigation("ProductTranslations");
-                });
-
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -775,8 +653,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductImages");
-
-                    b.Navigation("ProductTranslations");
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.User", b =>

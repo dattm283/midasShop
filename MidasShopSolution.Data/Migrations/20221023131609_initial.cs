@@ -18,6 +18,10 @@ namespace MidasShopSolution.Data.Migrations
                     SortOrder = table.Column<int>(type: "int", nullable: false),
                     IsShowOnHome = table.Column<bool>(type: "bit", nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SeoDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SeoTitle = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
@@ -43,19 +47,6 @@ namespace MidasShopSolution.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Languages",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Languages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -65,7 +56,13 @@ namespace MidasShopSolution.Data.Migrations
                     OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SeoDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SeoTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,36 +204,6 @@ namespace MidasShopSolution.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryTranslations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    SeoDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    SeoTitle = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    LanguageId = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false),
-                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoryTranslations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CategoryTranslations_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CategoryTranslations_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CategoryProduct",
                 columns: table => new
                 {
@@ -279,38 +246,6 @@ namespace MidasShopSolution.Data.Migrations
                     table.PrimaryKey("PK_ProductImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductImages_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductTranslations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    SeoDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SeoTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    LanguageId = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductTranslations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductTranslations_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductTranslations_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -420,16 +355,6 @@ namespace MidasShopSolution.Data.Migrations
                 column: "ProductsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryTranslations_CategoryId",
-                table: "CategoryTranslations",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoryTranslations_LanguageId",
-                table: "CategoryTranslations",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderDetailOrderId_OrderDetailProductId",
                 table: "OrderDetails",
                 columns: new[] { "OrderDetailOrderId", "OrderDetailProductId" });
@@ -448,16 +373,6 @@ namespace MidasShopSolution.Data.Migrations
                 name: "IX_ProductImages_ProductId",
                 table: "ProductImages",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductTranslations_LanguageId",
-                table: "ProductTranslations",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductTranslations_ProductId",
-                table: "ProductTranslations",
-                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -469,9 +384,6 @@ namespace MidasShopSolution.Data.Migrations
                 name: "CategoryProduct");
 
             migrationBuilder.DropTable(
-                name: "CategoryTranslations");
-
-            migrationBuilder.DropTable(
                 name: "Contacts");
 
             migrationBuilder.DropTable(
@@ -479,9 +391,6 @@ namespace MidasShopSolution.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImages");
-
-            migrationBuilder.DropTable(
-                name: "ProductTranslations");
 
             migrationBuilder.DropTable(
                 name: "Promotions");
@@ -509,9 +418,6 @@ namespace MidasShopSolution.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Products");

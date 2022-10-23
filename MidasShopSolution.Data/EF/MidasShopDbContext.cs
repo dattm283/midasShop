@@ -24,17 +24,18 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
 
         modelBuilder.ApplyConfiguration(new ContactConfiguration());
-
-        modelBuilder.ApplyConfiguration(new LanguageConfiguration());
-        modelBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
-
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
 
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+
+        modelBuilder
+            .Entity<Product>()
+            .HasMany(p => p.Categories)
+            .WithMany(p => p.Products)
+            .UsingEntity(j => j.ToTable("CategoryProduct"));
 
         modelBuilder
             .Entity<IdentityUserClaim<Guid>>()
@@ -59,20 +60,12 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
-
+    // public DbSet<CategoryProduct> CategoryProducts { get; set; }
     public DbSet<Cart> Carts { get; set; }
-
-    public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
-
     public DbSet<Contact> Contacts { get; set; }
-
-    public DbSet<Language> Languages { get; set; }
-
     public DbSet<Order> Orders { get; set; }
 
     public DbSet<OrderDetail> OrderDetails { get; set; }
-    public DbSet<ProductTranslation> ProductTranslations { get; set; }
-
     public DbSet<Promotion> Promotions { get; set; }
 
 
