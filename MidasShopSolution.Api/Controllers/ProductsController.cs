@@ -10,11 +10,15 @@ public class ProductsController : ControllerBase
 {
     private readonly IPublicProductService _publicProductService;
     private readonly IManageProductService _manageProductService;
+    private readonly IWebHostEnvironment _hostingEnvironment;
+
     public ProductsController(IPublicProductService publicProductService,
-        IManageProductService manageProductService)
+        IManageProductService manageProductService,
+        IWebHostEnvironment hostingEnvironment)
     {
         _publicProductService = publicProductService;
         _manageProductService = manageProductService;
+        _hostingEnvironment = hostingEnvironment;
     }
 
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
@@ -89,4 +93,6 @@ public class ProductsController : ControllerBase
 
         return Ok();
     }
+    
+   
 }

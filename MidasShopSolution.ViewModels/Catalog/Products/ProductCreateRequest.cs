@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace MidasShopSolution.ViewModels.Catalog.Products;
 
 public class ProductCreateRequest
@@ -5,10 +7,6 @@ public class ProductCreateRequest
     public decimal Price { get; set; }
     public decimal OriginalPrice { get; set; }
     public int Stock { get; set; }
-    public int ViewCount { get; set; }
-    public DateTime DateCreated { get; set; }
-
-    public int ProductId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Details { get; set; }
@@ -16,4 +14,5 @@ public class ProductCreateRequest
     public string SeoTitle { get; set; }
 
     public string SeoAlias { get; set; }
+    public IFormFile Images { get; set; }
 }

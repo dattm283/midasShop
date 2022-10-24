@@ -10,10 +10,12 @@ namespace MidasShopSolution.Api.Application.Catalog.Products;
 public class ManageProductService : IManageProductService
 {
     private readonly MidasShopDbContext _context;
+    private readonly IWebHostEnvironment _hostingEnvironment;
 
-    public ManageProductService(MidasShopDbContext context)
+    public ManageProductService(MidasShopDbContext context, IWebHostEnvironment hostingEnvironment)
     {
         _context = context;
+        _hostingEnvironment = hostingEnvironment;
     }
 
     public async Task AddViewCount(int productId)
@@ -39,6 +41,21 @@ public class ManageProductService : IManageProductService
             SeoAlias = request.SeoAlias,
             SeoTitle = request.SeoTitle
         };
+        if (request.Images != null)
+        {
+            product.ProductImages = new List<ProductImage>()
+                {
+                new ProductImage()
+                {
+                    Caption = "Thumbnail image",
+                    DateCreated = DateTime.Now,
+                    FileSize = request.Images.Length,
+                    ImagePath = await UploadFile(request.Images),
+                    IsDefault = true,
+                    SortOrder = 1,
+                }
+                };
+        }
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
         return product.Id;
@@ -156,5 +173,22 @@ public class ManageProductService : IManageProductService
         if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
 
         return await _context.SaveChangesAsync() > 0;
+    }
+    
+    private async Task<string> UploadFile(IFormFile file)
+    {
+        string fileName = null;
+        if (file != null)
+        {
+            string uploadDir = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            fileName = Guid.NewGuid().ToString() + "-" + file.FileName;
+            string filePath = Path.Combine(uploadDir, fileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+        }
+
+        return fileName;
     }
 }
