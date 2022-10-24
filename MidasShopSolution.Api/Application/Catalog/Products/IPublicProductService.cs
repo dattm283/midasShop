@@ -1,7 +1,7 @@
 using MidasShopSolution.ViewModels.Catalog.Products;
 using MidasShopSolution.ViewModels.Common;
 
-namespace MidasShopSolution.Application.Catalog.Products;
+namespace MidasShopSolution.Api.Application.Catalog.Products;
 
 public interface IPublicProductService
 {

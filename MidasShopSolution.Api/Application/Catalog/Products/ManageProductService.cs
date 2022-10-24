@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.Data.Entites;
-using MidasShopSolution.Utilities.Exceptions;
+using MidasShopSolution.Api.Utilities.Exceptions;
 using MidasShopSolution.ViewModels.Catalog.Products;
 using MidasShopSolution.ViewModels.Common;
 
-namespace MidasShopSolution.Application.Catalog.Products;
+namespace MidasShopSolution.Api.Application.Catalog.Products;
 
 public class ManageProductService : IManageProductService
 {
@@ -59,10 +59,10 @@ public class ManageProductService : IManageProductService
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<int> Delete(int ProductId)
+    public async Task<int> Delete(int productId)
     {
-        var product = await _context.Products.FindAsync(ProductId);
-        if (product == null) throw new MidasShopException($"Cannot find a product with Id: {ProductId}");
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null) throw new MidasShopException($"Cannot find a product with Id: {productId}");
         _context.Products.Remove(product);
         return await _context.SaveChangesAsync();
     }
@@ -99,10 +99,10 @@ public class ManageProductService : IManageProductService
         // 2. Filter
         if (!string.IsNullOrEmpty(request.Keyword))
             query = query.Where(x => x.p.Name.Contains(request.Keyword));
-        // if (request.CategoryIds.Count > 0)
-        // {
-        //     query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
-        // }
+         // if (request.CategoryIds.Count > 0)
+         // {
+         //     query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
+         // }
 
         // 3. Paging
         int totalRow = await query.CountAsync();

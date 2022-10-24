@@ -1,4 +1,4 @@
-namespace MidasShopSolution.Utilities.Exceptions;
+namespace MidasShopSolution.Api.Utilities.Exceptions;
 
 public class MidasShopException : Exception
 {
