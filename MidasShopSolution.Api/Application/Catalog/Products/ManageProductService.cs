@@ -73,6 +73,16 @@ public class ManageProductService : IManageProductService
         product.SeoDescription = request.SeoDescription;
         product.SeoAlias = request.SeoAlias;
         product.SeoTitle = request.SeoTitle;
+        if (request.Images != null)
+        {
+            var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
+            if (thumbnailImage != null)
+            {
+                thumbnailImage.FileSize = request.Images.Length;
+                thumbnailImage.ImagePath = await UploadFile(request.Images);
+                _context.ProductImages.Update(thumbnailImage);
+            }
+        }
         return await _context.SaveChangesAsync();
     }
 
@@ -80,6 +90,18 @@ public class ManageProductService : IManageProductService
     {
         var product = await _context.Products.FindAsync(productId);
         if (product == null) throw new MidasShopException($"Cannot find a product with Id: {productId}");
+
+        // Remove Images
+        var images = _context.ProductImages.Where(i => i.ProductId == productId);
+        foreach (var image in images)
+        {
+            var filePath = Path.Combine(_hostingEnvironment.WebRootPath, image.ImagePath);
+            if (File.Exists(filePath))
+            {
+                await Task.Run(() => File.Delete(filePath));
+            }
+        }
+
         _context.Products.Remove(product);
         return await _context.SaveChangesAsync();
     }
@@ -116,10 +138,10 @@ public class ManageProductService : IManageProductService
         // 2. Filter
         if (!string.IsNullOrEmpty(request.Keyword))
             query = query.Where(x => x.p.Name.Contains(request.Keyword));
-         // if (request.CategoryIds.Count > 0)
-         // {
-         //     query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
-         // }
+        // if (request.CategoryIds.Count > 0)
+        // {
+        //     query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
+        // }
 
         // 3. Paging
         int totalRow = await query.CountAsync();
@@ -174,7 +196,7 @@ public class ManageProductService : IManageProductService
 
         return await _context.SaveChangesAsync() > 0;
     }
-    
+
     private async Task<string> UploadFile(IFormFile file)
     {
         string fileName = null;

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace MidasShopSolution.ViewModels.Catalog.Products;
 
 public class ProductUpdateRequest
@@ -17,4 +19,5 @@ public class ProductUpdateRequest
     public string SeoTitle { set; get; }
 
     public string SeoAlias { get; set; }
+    public IFormFile Images { get; set; }
 }
