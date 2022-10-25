@@ -1,4 +1,5 @@
 using MidasShopSolution.ViewModels.Catalog.Products;
+using MidasShopSolution.ViewModels.Catalog.ProductImages;
 using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Api.Application.Catalog.Products;
@@ -17,4 +18,7 @@ public interface IManageProductService
     Task AddViewCount(int productId);
 
     Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+    Task<int> AddImage(int productId, ProductImageCreateRequest request);
+    Task<int> RemoveImage(int imageId);
+    Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
 }
