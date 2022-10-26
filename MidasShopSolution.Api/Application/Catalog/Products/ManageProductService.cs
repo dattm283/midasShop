@@ -259,4 +259,40 @@ public class ManageProductService : IManageProductService
         _context.ProductImages.Remove(productImage);
         return await _context.SaveChangesAsync();
     }
+
+    public async Task<ProductImageViewModel> GetImageById(int imageId)
+    {
+        var image = await _context.ProductImages.FindAsync(imageId);
+        if (image == null)
+            throw new MidasShopException($"Cannot find an image with id {imageId}");
+
+        var viewModel = new ProductImageViewModel()
+        {
+            Caption = image.Caption,
+            DateCreated = image.DateCreated,
+            FileSize = image.FileSize,
+            Id = image.Id,
+            ImagePath = image.ImagePath,
+            IsDefault = image.IsDefault,
+            ProductId = image.ProductId,
+            SortOrder = image.SortOrder
+        };
+        return viewModel;
+    }
+
+    public async Task<List<ProductImageViewModel>> GetListImages(int productId)
+    {
+        return await _context.ProductImages.Where(x => x.ProductId == productId)
+            .Select(i => new ProductImageViewModel()
+            {
+                Caption = i.Caption,
+                DateCreated = i.DateCreated,
+                FileSize = i.FileSize,
+                Id = i.Id,
+                ImagePath = i.ImagePath,
+                IsDefault = i.IsDefault,
+                ProductId = i.ProductId,
+                SortOrder = i.SortOrder
+            }).ToListAsync();
+    }
 }
