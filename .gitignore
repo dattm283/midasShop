@@ -352,3 +352,4 @@ MigrationBackup/
 # Custom
 .idea/
 .vscode/
+MidasShopSolution.Api/wwwroot/uploads
