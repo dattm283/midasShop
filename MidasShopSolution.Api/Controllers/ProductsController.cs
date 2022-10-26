@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MidasShopSolution.Api.Application.Catalog.Products;
 using MidasShopSolution.ViewModels.Catalog.Products;
+using MidasShopSolution.ViewModels.Catalog.ProductImages;
 
 namespace MidasShopSolution.Api.Controllers;
 
@@ -93,6 +94,60 @@ public class ProductsController : ControllerBase
 
         return Ok();
     }
-    
-   
+
+    //Images
+    [HttpPost("{productId}/images")]
+    public async Task<IActionResult> CreateImage(int productId, [FromForm] ProductImageCreateRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var imageId = await _manageProductService.AddImage(productId, request);
+        if (imageId == 0)
+            return BadRequest();
+
+        var image = await _manageProductService.GetImageById(imageId);
+
+        return CreatedAtAction(nameof(GetImageById), new { id = imageId }, image);
+    }
+
+    [HttpPut("{productId}/images/{imageId}")]
+    // [Authorize]
+    public async Task<IActionResult> UpdateImage(int imageId, [FromForm] ProductImageUpdateRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _manageProductService.UpdateImage(imageId, request);
+        if (result == 0)
+            return BadRequest();
+
+        return Ok();
+    }
+
+    [HttpDelete("{productId}/images/{imageId}")]
+    // [Authorize]
+    public async Task<IActionResult> RemoveImage(int imageId)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _manageProductService.RemoveImage(imageId);
+        if (result == 0)
+            return BadRequest();
+
+        return Ok();
+    }
+
+    [HttpGet("{productId}/images/{imageId}")]
+    public async Task<IActionResult> GetImageById(int productId, int imageId)
+    {
+        var image = await _manageProductService.GetImageById(imageId);
+        if (image == null)
+            return BadRequest("Cannot find product");
+        return Ok(image);
+    }
 }
