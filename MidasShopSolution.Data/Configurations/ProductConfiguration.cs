@@ -16,5 +16,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(0);
         builder.Property(t => t.ViewCount).IsRequired()
             .HasDefaultValue(0);
+        builder
+           .Property(p => p.Name)
+           .IsRequired()
+           .HasMaxLength(200);
+        builder
+            .Property(p => p.SeoAlias)
+            .IsRequired()
+            .HasMaxLength(200);
+        builder
+            .Property(p => p.Details)
+            .HasMaxLength(500);
+        // builder.HasOne(p => p.Category).WithMany(c => c.Products);
+
     }
 }

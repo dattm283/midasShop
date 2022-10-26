@@ -12,8 +12,8 @@ using MidasShopSolution.Data.EF;
 namespace MidasShopSolution.Data.Migrations
 {
     [DbContext(typeof(MidasShopDbContext))]
-    [Migration("20221010170502_Initial")]
-    partial class Initial
+    [Migration("20221024143831_Update_ProductImages")]
+    partial class Update_ProductImages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,18 +24,116 @@ namespace MidasShopSolution.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.AppConfig", b =>
+            modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CategoryProduct", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Key");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("AppConfigs", (string)null);
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.ToTable("UserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Cart", b =>
@@ -65,6 +163,8 @@ namespace MidasShopSolution.Data.Migrations
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Carts", (string)null);
                 });
 
@@ -79,43 +179,13 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<bool>("IsShowOnHome")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.CategoryTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LanguageId")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SeoAlias")
                         .IsRequired()
@@ -132,13 +202,17 @@ namespace MidasShopSolution.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("CategoryTranslations", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Contact", b =>
@@ -176,26 +250,6 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Contacts", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Language", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages", (string)null);
-                });
-
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -205,9 +259,7 @@ namespace MidasShopSolution.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("OrderDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 10, 11, 0, 5, 1, 901, DateTimeKind.Local).AddTicks(1624));
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -237,6 +289,8 @@ namespace MidasShopSolution.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -281,6 +335,20 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -288,6 +356,15 @@ namespace MidasShopSolution.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SeoAlias")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("SeoDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -306,22 +383,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductInCategory", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductInCategories", (string)null);
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductTranslation", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,49 +391,36 @@ namespace MidasShopSolution.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Caption")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("LanguageId")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SeoAlias")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("SeoDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeoTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LanguageId");
-
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductTranslations", (string)null);
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Promotion", b =>
@@ -385,6 +434,10 @@ namespace MidasShopSolution.Data.Migrations
                     b.Property<bool>("ApplyForAll")
                         .HasColumnType("bit");
 
+                    b.Property<string>("CategoryIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("DiscountAmount")
                         .HasColumnType("decimal(18,2)");
 
@@ -395,10 +448,6 @@ namespace MidasShopSolution.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductCategoryIds")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -417,45 +466,110 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Promotions", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Transaction", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ExternalTransactionId")
-                        .IsRequired()
+                    b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Fee")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Message")
+                    b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Provider")
-                        .IsRequired()
+                    b.Property<string>("NormalizedName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("CategoryProduct", b =>
+                {
+                    b.HasOne("MidasShopSolution.Data.Entites.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MidasShopSolution.Data.Entites.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Cart", b =>
@@ -466,26 +580,26 @@ namespace MidasShopSolution.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MidasShopSolution.Data.Entites.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.CategoryTranslation", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Category", "Category")
-                        .WithMany("CategoryTranslations")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("MidasShopSolution.Data.Entites.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MidasShopSolution.Data.Entites.Language", "Language")
-                        .WithMany("CategoryTranslations")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Language");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.OrderDetail", b =>
@@ -511,56 +625,15 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductInCategory", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Category", "Category")
-                        .WithMany("ProductInCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
-                        .WithMany("ProductInCategories")
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductTranslation", b =>
-                {
-                    b.HasOne("MidasShopSolution.Data.Entites.Language", "Language")
-                        .WithMany("ProductTranslations")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
-                        .WithMany("ProductTranslations")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Category", b =>
-                {
-                    b.Navigation("CategoryTranslations");
-
-                    b.Navigation("ProductInCategories");
-                });
-
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Language", b =>
-                {
-                    b.Navigation("CategoryTranslations");
-
-                    b.Navigation("ProductTranslations");
                 });
 
             modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
@@ -579,9 +652,14 @@ namespace MidasShopSolution.Data.Migrations
 
                     b.Navigation("OrderDetails");
 
-                    b.Navigation("ProductInCategories");
+                    b.Navigation("ProductImages");
+                });
 
-                    b.Navigation("ProductTranslations");
+            modelBuilder.Entity("MidasShopSolution.Data.Entites.User", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

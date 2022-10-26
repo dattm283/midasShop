@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using MidasShopSolution.Application.Catalog.Products;
+using MidasShopSolution.Api.Application.Catalog.Products;
 using MidasShopSolution.Data.EF;
 
 var builder = WebApplication.CreateBuilder(args);

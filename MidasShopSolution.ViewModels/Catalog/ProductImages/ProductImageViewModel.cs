@@ -1,6 +1,6 @@
-namespace MidasShopSolution.Data.Entites;
+namespace MidasShopSolution.ViewModels.Catalog.ProductImages;
 
-public class ProductImage
+public class ProductImageViewModel
 {
     public int Id { get; set; }
     public int ProductId { get; set; }
@@ -10,5 +10,4 @@ public class ProductImage
     public DateTime DateCreated { get; set; }
     public int SortOrder { get; set; }
     public long FileSize { get; set; }
-    public Product Product { get; set; }
 }
