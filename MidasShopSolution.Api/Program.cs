@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using MidasShopSolution.Api.Application.Catalog.Products;
 using MidasShopSolution.Data.EF;
-using Microsoft.AspNetCore.Identity;
 using MidasShopSolution.Data.Entities;
+using MidasShopSolution.Api.Application.System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MidasShopDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("MidasShopSolutionDb")
 ));
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<MidasShopDbContext>()
+    .AddDefaultTokenProviders();
 // Declare DI
 builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
 builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
 builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
+builder.Services.AddTransient<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
