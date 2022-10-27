@@ -1,6 +1,6 @@
 using MidasShopSolution.Data.Enums;
 
-namespace MidasShopSolution.Data.Entites;
+namespace MidasShopSolution.Data.Entities;
 
 public class Category
 {

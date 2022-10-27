@@ -1,4 +1,4 @@
-namespace MidasShopSolution.Data.Entites;
+namespace MidasShopSolution.Data.Entities;
 
 public class OrderDetail
 {
@@ -10,5 +10,5 @@ public class OrderDetail
     public Order Order { get; set; }
 
     public Product Product { get; set; }
-    public List<OrderDetail>OrderDetails { get; set; }
+    public List<OrderDetail> OrderDetails { get; set; }
 }

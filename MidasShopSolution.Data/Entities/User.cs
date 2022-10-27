@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace MidasShopSolution.Data.Entites;
+namespace MidasShopSolution.Data.Entities;
 
 public class User : IdentityUser<Guid>
 {

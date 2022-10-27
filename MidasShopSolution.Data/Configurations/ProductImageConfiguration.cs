@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MidasShopSolution.Data.Entites;
+using MidasShopSolution.Data.Entities;
 
 namespace MidasShopSolution.Data.Configurations;
 
-public class ProductImageConfiguration: IEntityTypeConfiguration<ProductImage>
+public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
 {
     public void Configure(EntityTypeBuilder<ProductImage> builder)
     {

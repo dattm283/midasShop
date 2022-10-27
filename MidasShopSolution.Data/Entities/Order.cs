@@ -1,6 +1,6 @@
 using MidasShopSolution.Data.Enums;
 
-namespace MidasShopSolution.Data.Entites;
+namespace MidasShopSolution.Data.Entities;
 
 public class Order
 {
@@ -13,6 +13,6 @@ public class Order
     public string ShipPhoneNumber { set; get; }
     public OrderStatus Status { set; get; }
     public List<OrderDetail> OrderDetails { get; set; }
-    
+
     public User User { get; set; }
 }

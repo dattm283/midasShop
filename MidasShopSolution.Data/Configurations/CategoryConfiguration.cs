@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MidasShopSolution.Data.Entites;
+using MidasShopSolution.Data.Entities;
 using MidasShopSolution.Data.Enums;
 
 namespace MidasShopSolution.Data.Configurations;
