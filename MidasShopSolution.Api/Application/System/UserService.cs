@@ -5,7 +5,6 @@ using MidasShopSolution.ViewModels.System.Users;
 using MidasShopSolution.Data.Entities;
 using System.Security.Claims;
 using System.Text;
-using MidasShopSolution.Api.Utilities.Exceptions;
 
 namespace MidasShopSolution.Api.Application.System
 {
@@ -53,7 +52,21 @@ namespace MidasShopSolution.Api.Application.System
         }
         public async Task<bool> Register(RegisterRequest request)
         {
-            throw new NotImplementedException();
+            var user = new User()
+            {
+                Dob = request.Dob,
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                PhoneNumber = request.PhoneNumber
+            };
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
