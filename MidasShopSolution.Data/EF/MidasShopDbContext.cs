@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.Configurations;
-using MidasShopSolution.Data.Entites;
+using MidasShopSolution.Data.Entities;
 
 namespace MidasShopSolution.Data.EF;
 
@@ -30,6 +30,9 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+
+        modelBuilder.ApplyConfiguration(new SlideConfiguration());
+
 
         modelBuilder
             .Entity<Product>()
@@ -70,4 +73,6 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
 
     public DbSet<ProductImage> ProductImages { get; set; }
+    public DbSet<Slide> Slides { get; set; }
+
 }

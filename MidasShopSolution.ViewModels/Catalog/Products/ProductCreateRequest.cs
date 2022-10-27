@@ -12,7 +12,7 @@ public class ProductCreateRequest
     public string Details { get; set; }
     public string SeoDescription { get; set; }
     public string SeoTitle { get; set; }
-
     public string SeoAlias { get; set; }
+    public bool IsFeatured { get; set; }
     public IFormFile Images { get; set; }
 }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.EF;
-using MidasShopSolution.Data.Entites;
+using MidasShopSolution.Data.Entities;
 using MidasShopSolution.Api.Utilities.Exceptions;
 using MidasShopSolution.ViewModels.Catalog.Products;
 using MidasShopSolution.ViewModels.Catalog.ProductImages;
@@ -40,7 +40,8 @@ public class ManageProductService : IManageProductService
             Details = request.Details,
             SeoDescription = request.SeoDescription,
             SeoAlias = request.SeoAlias,
-            SeoTitle = request.SeoTitle
+            SeoTitle = request.SeoTitle,
+            IsFeatured = request.IsFeatured
         };
         if (request.Images != null)
         {
@@ -74,6 +75,7 @@ public class ManageProductService : IManageProductService
         product.SeoDescription = request.SeoDescription;
         product.SeoAlias = request.SeoAlias;
         product.SeoTitle = request.SeoTitle;
+        product.IsFeatured = request.IsFeatured;
         if (request.Images != null)
         {
             var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);

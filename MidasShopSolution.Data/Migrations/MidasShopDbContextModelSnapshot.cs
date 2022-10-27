@@ -134,7 +134,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Cart", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Carts", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Category", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,7 +213,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Contact", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,7 +248,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Contacts", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -293,7 +293,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.OrderDetail", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -322,7 +322,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("OrderDetails", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Product", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,6 +341,9 @@ namespace MidasShopSolution.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool?>("IsFeatured")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -381,7 +384,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -421,7 +424,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("ProductImages", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Promotion", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Promotion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -464,7 +467,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Promotions", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Role", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -489,7 +492,46 @@ namespace MidasShopSolution.Data.Migrations
                     b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.User", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Slide", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slides", (string)null);
+                });
+
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -557,28 +599,28 @@ namespace MidasShopSolution.Data.Migrations
 
             modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Category", null)
+                    b.HasOne("MidasShopSolution.Data.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", null)
+                    b.HasOne("MidasShopSolution.Data.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Cart", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Cart", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
+                    b.HasOne("MidasShopSolution.Data.Entities.Product", "Product")
                         .WithMany("Carts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MidasShopSolution.Data.Entites.User", "User")
+                    b.HasOne("MidasShopSolution.Data.Entities.User", "User")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -589,9 +631,9 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Order", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.User", "User")
+                    b.HasOne("MidasShopSolution.Data.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -600,21 +642,21 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.OrderDetail", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Order", "Order")
+                    b.HasOne("MidasShopSolution.Data.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
+                    b.HasOne("MidasShopSolution.Data.Entities.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MidasShopSolution.Data.Entites.OrderDetail", null)
+                    b.HasOne("MidasShopSolution.Data.Entities.OrderDetail", null)
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderDetailOrderId", "OrderDetailProductId");
 
@@ -623,9 +665,9 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.ProductImage", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.ProductImage", b =>
                 {
-                    b.HasOne("MidasShopSolution.Data.Entites.Product", "Product")
+                    b.HasOne("MidasShopSolution.Data.Entities.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -634,17 +676,17 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Order", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.OrderDetail", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.OrderDetail", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.Product", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.Product", b =>
                 {
                     b.Navigation("Carts");
 
@@ -653,7 +695,7 @@ namespace MidasShopSolution.Data.Migrations
                     b.Navigation("ProductImages");
                 });
 
-            modelBuilder.Entity("MidasShopSolution.Data.Entites.User", b =>
+            modelBuilder.Entity("MidasShopSolution.Data.Entities.User", b =>
                 {
                     b.Navigation("Carts");
 
