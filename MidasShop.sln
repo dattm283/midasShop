@@ -8,17 +8,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Solution Items", "0. Sol
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Data", "MidasShopSolution.Data\MidasShopSolution.Data.csproj", "{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Data", "MidasShopSolution.Data\MidasShopSolution.Data.csproj", "{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.ViewModels", "MidasShopSolution.ViewModels\MidasShopSolution.ViewModels.csproj", "{B7956D18-56F6-439B-807B-F51B19452625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.ViewModels", "MidasShopSolution.ViewModels\MidasShopSolution.ViewModels.csproj", "{B7956D18-56F6-439B-807B-F51B19452625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.CustomerSite", "MidasShopSolution.CustomerSite\MidasShopSolution.CustomerSite.csproj", "{367F4342-0E74-461C-AAEE-A9DBC8D10D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.CustomerSite", "MidasShopSolution.CustomerSite\MidasShopSolution.CustomerSite.csproj", "{367F4342-0E74-461C-AAEE-A9DBC8D10D18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.AdminSite", "MidasShopSolution.AdminSite\MidasShopSolution.AdminSite.csproj", "{42F44D77-CB49-4786-BECF-D2E1C1431897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api.Test", "MidasShopSolution.Api.Test\MidasShopSolution.Api.Test.csproj", "{18613889-9D7A-4835-BB3F-F71BD1176F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Api.Test", "MidasShopSolution.Api.Test\MidasShopSolution.Api.Test.csproj", "{18613889-9D7A-4835-BB3F-F71BD1176F13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api", "MidasShopSolution.Api\MidasShopSolution.Api.csproj", "{70DFE445-5F6B-435C-91F5-C3C0C42C5106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.Api", "MidasShopSolution.Api\MidasShopSolution.Api.csproj", "{70DFE445-5F6B-435C-91F5-C3C0C42C5106}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.AdminSite", "MidasShopSolution.AdminSite\MidasShopSolution.AdminSite.csproj", "{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,6 @@ Global
 		{367F4342-0E74-461C-AAEE-A9DBC8D10D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{367F4342-0E74-461C-AAEE-A9DBC8D10D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{367F4342-0E74-461C-AAEE-A9DBC8D10D18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42F44D77-CB49-4786-BECF-D2E1C1431897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42F44D77-CB49-4786-BECF-D2E1C1431897}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42F44D77-CB49-4786-BECF-D2E1C1431897}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42F44D77-CB49-4786-BECF-D2E1C1431897}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18613889-9D7A-4835-BB3F-F71BD1176F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18613889-9D7A-4835-BB3F-F71BD1176F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18613889-9D7A-4835-BB3F-F71BD1176F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,13 +46,15 @@ Global
 		{70DFE445-5F6B-435C-91F5-C3C0C42C5106}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70DFE445-5F6B-435C-91F5-C3C0C42C5106}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70DFE445-5F6B-435C-91F5-C3C0C42C5106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {750902C1-CDC3-440E-BF16-4CF5497B8349}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
