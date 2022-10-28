@@ -1,4 +1,4 @@
-using MidasShopSolution.Api.Services.System;
+using MidasShopSolution.Api.Services.Users;
 using MidasShopSolution.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +20,7 @@ namespace MidasShopSolution.Api.Controllers
         public async Task<IActionResult> Authenticate([FromForm] LoginRequest request)
         {
             // userName: dattran2803
+            // userName: admin
             // password: 123456@Abc
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var resultToken = await _userService.Authencate(request);

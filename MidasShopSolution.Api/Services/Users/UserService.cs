@@ -6,7 +6,7 @@ using MidasShopSolution.Data.Entities;
 using System.Security.Claims;
 using System.Text;
 
-namespace MidasShopSolution.Api.Services.System
+namespace MidasShopSolution.Api.Services.Users
 {
     public class UserService : IUserService
     {

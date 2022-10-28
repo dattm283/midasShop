@@ -1,6 +1,6 @@
 using MidasShopSolution.ViewModels.Users;
 
-namespace MidasShopSolution.Api.Services.System
+namespace MidasShopSolution.Api.Services.Users
 {
     public interface IUserService
     {
