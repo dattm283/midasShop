@@ -1,5 +1,5 @@
 
-namespace MidasShopSolution.Api.Application.Common;
+namespace MidasShopSolution.Api.Services.Common;
 public class FileStorageService : IStorageService
 {
     private readonly string _userContentFolder;

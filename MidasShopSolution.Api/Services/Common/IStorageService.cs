@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MidasShopSolution.Api.Application.Common;
+namespace MidasShopSolution.Api.Services.Common;
 
 public interface IStorageService
 {

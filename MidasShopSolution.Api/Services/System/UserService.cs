@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using MidasShopSolution.ViewModels.System.Users;
+using MidasShopSolution.ViewModels.Users;
 using MidasShopSolution.Data.Entities;
 using System.Security.Claims;
 using System.Text;
 
-namespace MidasShopSolution.Api.Application.System
+namespace MidasShopSolution.Api.Services.System
 {
     public class UserService : IUserService
     {

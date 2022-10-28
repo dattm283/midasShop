@@ -2,18 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.Data.Entities;
 using MidasShopSolution.Api.Utilities.Exceptions;
-using MidasShopSolution.ViewModels.Catalog.Products;
-using MidasShopSolution.ViewModels.Catalog.ProductImages;
+using MidasShopSolution.ViewModels.Products;
+using MidasShopSolution.ViewModels.ProductImages;
 using MidasShopSolution.ViewModels.Common;
 
-namespace MidasShopSolution.Api.Application.Catalog.Products;
+namespace MidasShopSolution.Api.Services.Products;
 
-public class ManageProductService : IManageProductService
+public class ProductService : IProductService
 {
     private readonly MidasShopDbContext _context;
     private readonly IWebHostEnvironment _hostingEnvironment;
 
-    public ManageProductService(MidasShopDbContext context, IWebHostEnvironment hostingEnvironment)
+    public ProductService(MidasShopDbContext context, IWebHostEnvironment hostingEnvironment)
     {
         _context = context;
         _hostingEnvironment = hostingEnvironment;
@@ -199,7 +199,46 @@ public class ManageProductService : IManageProductService
 
         return await _context.SaveChangesAsync() > 0;
     }
+    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+    {
+        // 1. Select join
+        var query = from p in _context.Products
+                    select new { p };
 
+        // 2. Filter
+        // if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
+        // {
+        //     query = query.Where(p => p.pic.CategoryId == request.CategoryId);
+        // }
+
+        // 3. Paging
+        int totalRow = await query.CountAsync();
+
+        var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .Select(x => new ProductViewModel()
+            {
+                Id = x.p.Id,
+                Name = x.p.Name,
+                DateCreated = x.p.DateCreated,
+                Description = x.p.Description,
+                Details = x.p.Details,
+                OriginalPrice = x.p.OriginalPrice,
+                Price = x.p.Price,
+                SeoAlias = x.p.SeoAlias,
+                SeoDescription = x.p.SeoDescription,
+                SeoTitle = x.p.SeoTitle,
+                ViewCount = x.p.ViewCount
+            }).ToListAsync();
+
+        // 4. Select and projection
+        var pagedResult = new PagedResult<ProductViewModel>()
+        {
+            TotalRecord = totalRow,
+            //Items = await data.ToListAsync();
+        };
+        return pagedResult;
+    }
     private async Task<string> UploadFile(IFormFile file)
     {
         string fileName = null;

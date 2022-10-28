@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Http;
 
-namespace MidasShopSolution.ViewModels.Catalog.ProductImages
+namespace MidasShopSolution.ViewModels.ProductImages
 {
-    public class ProductImageUpdateRequest
+    public class ProductImageCreateRequest
     {
-        public int Id { get; set; }
         public string Caption { get; set; }
         public bool IsDefault { get; set; }
         public int SortOrder { get; set; }

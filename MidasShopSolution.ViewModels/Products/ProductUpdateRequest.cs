@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace MidasShopSolution.ViewModels.Catalog.Products;
+namespace MidasShopSolution.ViewModels.Products;
 
 public class ProductUpdateRequest
 {

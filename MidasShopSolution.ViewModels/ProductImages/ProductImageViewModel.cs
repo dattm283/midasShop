@@ -1,4 +1,4 @@
-namespace MidasShopSolution.ViewModels.Catalog.ProductImages;
+namespace MidasShopSolution.ViewModels.ProductImages;
 
 public class ProductImageViewModel
 {

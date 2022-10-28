@@ -1,7 +1,7 @@
-using MidasShopSolution.Api.Application.Catalog.Products;
+using MidasShopSolution.Api.Services.Products;
+using MidasShopSolution.Api.Services.System;
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.Data.Entities;
-using MidasShopSolution.Api.Application.System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -16,8 +16,7 @@ builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<MidasShopDbContext>()
     .AddDefaultTokenProviders();
 // Declare DI
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
-builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
 builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();

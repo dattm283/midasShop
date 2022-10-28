@@ -1,5 +1,5 @@
-using MidasShopSolution.Api.Application.System;
-using MidasShopSolution.ViewModels.System.Users;
+using MidasShopSolution.Api.Services.System;
+using MidasShopSolution.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
