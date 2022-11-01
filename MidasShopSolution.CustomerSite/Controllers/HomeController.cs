@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MidasShopSolution.CustomerSite.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MidasShopSolution.CustomerSite.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -15,6 +17,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var user = User.Identity.Name;
         return View();
     }
 

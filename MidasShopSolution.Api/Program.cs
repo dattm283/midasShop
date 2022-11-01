@@ -84,7 +84,16 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 // <---End Authorization for swagger--->
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://localhost:5001",
+        "https://localhost:5002",
+        "https://localhost:5003",
+        "https://localhost:5004");
+    });
+});
 
 var app = builder.Build();
 
@@ -107,7 +116,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllerRoute(
