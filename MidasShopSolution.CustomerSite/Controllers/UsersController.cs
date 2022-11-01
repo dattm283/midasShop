@@ -33,7 +33,6 @@ namespace MidasShopSolution.CustomerSite.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public async Task<IActionResult> Login()
         {
@@ -54,11 +53,26 @@ namespace MidasShopSolution.CustomerSite.Controllers
                 IsPersistent = false
             };
             await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal,
-                        authProperties);
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                userPrincipal,
+                authProperties);
 
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            var result = await _userApiClient.RegisterUser(request);
+            if (result)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(request);
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
