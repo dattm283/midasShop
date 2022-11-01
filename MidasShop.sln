@@ -13,12 +13,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.ViewModels", "MidasShopSolution.ViewModels\MidasShopSolution.ViewModels.csproj", "{B7956D18-56F6-439B-807B-F51B19452625}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.CustomerSite", "MidasShopSolution.CustomerSite\MidasShopSolution.CustomerSite.csproj", "{367F4342-0E74-461C-AAEE-A9DBC8D10D18}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70DFE445-5F6B-435C-91F5-C3C0C42C5106} = {70DFE445-5F6B-435C-91F5-C3C0C42C5106}
+		{B7956D18-56F6-439B-807B-F51B19452625} = {B7956D18-56F6-439B-807B-F51B19452625}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api.Test", "MidasShopSolution.Api.Test\MidasShopSolution.Api.Test.csproj", "{18613889-9D7A-4835-BB3F-F71BD1176F13}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api", "MidasShopSolution.Api\MidasShopSolution.Api.csproj", "{70DFE445-5F6B-435C-91F5-C3C0C42C5106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidasShopSolution.AdminSite", "MidasShopSolution.AdminSite\MidasShopSolution.AdminSite.csproj", "{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.AdminSite", "MidasShopSolution.AdminSite\MidasShopSolution.AdminSite.csproj", "{6A6E8E5F-20B7-482E-8FCC-2A77D9AC0ACC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
