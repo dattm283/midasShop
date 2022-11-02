@@ -22,13 +22,18 @@ public class ProductsController : ControllerBase
     }
 
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
-    [HttpGet]
+    [HttpGet("category")]
     public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
     {
         var products = await _productService.GetAllByCategoryId(request);
         return Ok(products);
     }
-
+    [HttpGet("keyword")]
+    public async Task<IActionResult> GetAllPagingByKeyword([FromQuery] GetManageProductPagingRequest request)
+    {
+        var products = await _productService.GetAllPagingByKeyword(request);
+        return Ok(products);
+    }
     // /products/:productId
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetById(int productId)
