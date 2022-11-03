@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
@@ -30,7 +31,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddControllers()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+    .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -94,7 +96,6 @@ builder.Services.AddCors(options =>
         "https://localhost:5004");
     });
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

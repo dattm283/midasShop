@@ -22,8 +22,11 @@ public class ProductService : IProductService
     public async Task AddViewCount(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
-        product.ViewCount += 1;
-        await _context.SaveChangesAsync();
+        if (product != null)
+        {
+            product.ViewCount += 1;
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<int> Create(ProductCreateRequest request)
@@ -196,7 +199,6 @@ public class ProductService : IProductService
             .Take(request.PageSize * 10)
             .Select(x => new ProductViewModel()
             {
-                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
@@ -233,6 +235,7 @@ public class ProductService : IProductService
         product.Stock += addedQuantity;
         return await _context.SaveChangesAsync() > 0;
     }
+
 
     public async Task<bool> UpdateImage(int productId)
     {
@@ -338,5 +341,30 @@ public class ProductService : IProductService
                 ProductId = i.ProductId,
                 SortOrder = i.SortOrder
             }).ToListAsync();
+    }
+    public async Task<Product> CategoryAssign(int id, CategoryAssignRequest request)
+    {
+        var product = await _context.Products.Include(p => p.Categories).FirstOrDefaultAsync(p => p.Id == id);
+        if (product == null)
+        {
+            throw new MidasShopException($"Sản phẩm với id {id} không tồn tại");
+        }
+        product.Categories = new List<Category>();
+        foreach (var listItem in request.Categories)
+        {
+            var categoryItem = await _context.Categories.FindAsync(listItem.Id);
+            if (categoryItem != null && listItem.Selected == true)
+            {
+                product.Categories.Add(categoryItem);
+            }
+        }
+        await _context.SaveChangesAsync();
+        // var result = new ApiResult<bool>()
+        // {
+        //     IsSuccessed = true,
+        //     Message = ""
+        //     // ResultObj
+        // };
+        return product;
     }
 }
