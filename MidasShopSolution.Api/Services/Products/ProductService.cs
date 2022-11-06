@@ -22,8 +22,11 @@ public class ProductService : IProductService
     public async Task AddViewCount(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
-        product.ViewCount += 1;
-        await _context.SaveChangesAsync();
+        if (product != null)
+        {
+            product.ViewCount += 1;
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<int> Create(ProductCreateRequest request)
@@ -132,49 +135,90 @@ public class ProductService : IProductService
         return productViewModel;
     }
 
-    public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
+    public async Task<PagedResult<ProductViewModel>> GetAllPagingByKeyword(GetManageProductPagingRequest request)
     {
         // 1. Select join
-        var query = from p in _context.Products
-                    select new { p };
+        var query = await _context.Products.Include(p => p.Categories).ToListAsync();
 
-        // 2. Filter
+        // 2.Filter
         if (!string.IsNullOrEmpty(request.Keyword))
-            query = query.Where(x => x.p.Name.Contains(request.Keyword));
-        // if (request.CategoryIds.Count > 0)
-        // {
-        //     query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
-        // }
+            query = query.Where(p => request.Keyword.Any(keyword => p.Name.Contains(keyword))).ToList();
+
+        if (request.CategoryIds.Count > 0)
+        {
+            // query = query.Where(x => request.CategoryIds.Contains(x.p.Categories.FindAll()));
+            query = query.Where(p => p.Categories.Any(c => request.CategoryIds.Any(categoryId => c.Id == categoryId))).ToList();
+        }
 
         // 3. Paging
-        int totalRow = await query.CountAsync();
+        int totalRow = query.Count();
 
-        var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
-            .Take(request.PageSize)
+        var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize * 10)
             .Select(x => new ProductViewModel()
             {
-                Id = x.p.Id,
-                Name = x.p.Name,
-                DateCreated = x.p.DateCreated,
-                Description = x.p.Description,
-                Details = x.p.Details,
-                OriginalPrice = x.p.OriginalPrice,
-                Price = x.p.Price,
-                SeoAlias = x.p.SeoAlias,
-                SeoDescription = x.p.SeoDescription,
-                SeoTitle = x.p.SeoTitle,
-                ViewCount = x.p.ViewCount
-            }).ToListAsync();
+                Id = x.Id,
+                Name = x.Name,
+                DateCreated = x.DateCreated,
+                Description = x.Description,
+                Details = x.Details,
+                OriginalPrice = x.OriginalPrice,
+                Price = x.Price,
+                SeoAlias = x.SeoAlias,
+                SeoDescription = x.SeoDescription,
+                SeoTitle = x.SeoTitle,
+                ViewCount = x.ViewCount
+            }).ToList();
 
         // 4. Select and projection
         var pagedResult = new PagedResult<ProductViewModel>()
         {
             TotalRecord = totalRow,
+            Items = data
             //Items = await data.ToListAsync();
         };
         return pagedResult;
     }
 
+    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+    {
+        // 1. Select join
+        var query = await _context.Products.Include(p => p.Categories).ToListAsync();
+
+        // 2. Filter
+        if (request.CategoryId != null)
+        {
+            // query = query.Where(x => request.CategoryIds.Contains(x.p.Categories.FindAll()));
+            query = query.Where(p => p.Categories.Any(c => c.Id == request.CategoryId)).ToList();
+        }
+
+        // 3. Paging
+        int totalRow = query.Count();
+
+        var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize * 10)
+            .Select(x => new ProductViewModel()
+            {
+                Name = x.Name,
+                DateCreated = x.DateCreated,
+                Description = x.Description,
+                Details = x.Details,
+                OriginalPrice = x.OriginalPrice,
+                Price = x.Price,
+                SeoAlias = x.SeoAlias,
+                SeoDescription = x.SeoDescription,
+                SeoTitle = x.SeoTitle,
+                ViewCount = x.ViewCount
+            }).ToList();
+
+        // 4. Select and projection
+        var pagedResult = new PagedResult<ProductViewModel>()
+        {
+            TotalRecord = totalRow,
+            Items = data
+        };
+        return pagedResult;
+    }
     public async Task<bool> UpdatePrice(int productId, decimal newPrice)
     {
         var product = await _context.Products.FindAsync(productId);
@@ -192,6 +236,7 @@ public class ProductService : IProductService
         return await _context.SaveChangesAsync() > 0;
     }
 
+
     public async Task<bool> UpdateImage(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
@@ -199,46 +244,7 @@ public class ProductService : IProductService
 
         return await _context.SaveChangesAsync() > 0;
     }
-    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
-    {
-        // 1. Select join
-        var query = from p in _context.Products
-                    select new { p };
 
-        // 2. Filter
-        // if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
-        // {
-        //     query = query.Where(p => p.pic.CategoryId == request.CategoryId);
-        // }
-
-        // 3. Paging
-        int totalRow = await query.CountAsync();
-
-        var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .Select(x => new ProductViewModel()
-            {
-                Id = x.p.Id,
-                Name = x.p.Name,
-                DateCreated = x.p.DateCreated,
-                Description = x.p.Description,
-                Details = x.p.Details,
-                OriginalPrice = x.p.OriginalPrice,
-                Price = x.p.Price,
-                SeoAlias = x.p.SeoAlias,
-                SeoDescription = x.p.SeoDescription,
-                SeoTitle = x.p.SeoTitle,
-                ViewCount = x.p.ViewCount
-            }).ToListAsync();
-
-        // 4. Select and projection
-        var pagedResult = new PagedResult<ProductViewModel>()
-        {
-            TotalRecord = totalRow,
-            //Items = await data.ToListAsync();
-        };
-        return pagedResult;
-    }
     private async Task<string> UploadFile(IFormFile file)
     {
         string fileName = null;
@@ -335,5 +341,30 @@ public class ProductService : IProductService
                 ProductId = i.ProductId,
                 SortOrder = i.SortOrder
             }).ToListAsync();
+    }
+    public async Task<Product> CategoryAssign(int id, CategoryAssignRequest request)
+    {
+        var product = await _context.Products.Include(p => p.Categories).FirstOrDefaultAsync(p => p.Id == id);
+        if (product == null)
+        {
+            throw new MidasShopException($"Sản phẩm với id {id} không tồn tại");
+        }
+        product.Categories = new List<Category>();
+        foreach (var listItem in request.Categories)
+        {
+            var categoryItem = await _context.Categories.FindAsync(listItem.Id);
+            if (categoryItem != null && listItem.Selected == true)
+            {
+                product.Categories.Add(categoryItem);
+            }
+        }
+        await _context.SaveChangesAsync();
+        // var result = new ApiResult<bool>()
+        // {
+        //     IsSuccessed = true,
+        //     Message = ""
+        //     // ResultObj
+        // };
+        return product;
     }
 }

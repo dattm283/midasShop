@@ -22,13 +22,18 @@ public class ProductsController : ControllerBase
     }
 
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
-    [HttpGet]
+    [HttpGet("category")]
     public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
     {
         var products = await _productService.GetAllByCategoryId(request);
         return Ok(products);
     }
-
+    [HttpGet("keyword")]
+    public async Task<IActionResult> GetAllPagingByKeyword([FromQuery] GetManageProductPagingRequest request)
+    {
+        var products = await _productService.GetAllPagingByKeyword(request);
+        return Ok(products);
+    }
     // /products/:productId
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetById(int productId)
@@ -93,7 +98,19 @@ public class ProductsController : ControllerBase
 
         return Ok();
     }
+    [HttpPut("{id}/categories")]
+    public async Task<IActionResult> CategoryAssign(int id, [FromBody] CategoryAssignRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
+        var result = await _productService.CategoryAssign(id, request);
+        // if (!result.IsSuccessed)
+        // {
+        //     return BadRequest(result);
+        // }
+        return Ok(result);
+    }
     //Images
     [HttpPost("{productId}/images")]
     public async Task<IActionResult> CreateImage(int productId, [FromForm] ProductImageCreateRequest request)

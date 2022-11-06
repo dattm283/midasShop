@@ -12,3 +12,8 @@ html {
   position: relative;
   min-height: 100%;
 }
+
+.img-fluid {
+  height : 100%;
+  width: 100%;
+}
