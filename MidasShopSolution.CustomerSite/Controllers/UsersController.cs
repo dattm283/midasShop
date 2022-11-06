@@ -36,6 +36,7 @@ namespace MidasShopSolution.CustomerSite.Controllers
         public async Task<IActionResult> Login()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Response.Cookies.Delete(".AspNetCore.Cookies");
             return View();
         }
         [HttpPost]

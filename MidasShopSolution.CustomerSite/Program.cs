@@ -2,6 +2,7 @@ using MidasShopSolution.CustomerSite.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FluentValidation.AspNetCore;
 using MidasShopSolution.ViewModels.Users;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,13 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+// builder.Services
+//     .AddScoped<IProductApiClient, ProductApiClient>();
+
+builder.Services
+    .AddRefitClient<IProductApiClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001/"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

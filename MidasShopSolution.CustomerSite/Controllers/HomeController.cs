@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MidasShopSolution.CustomerSite.Models;
+using MidasShopSolution.CustomerSite.Services;
 using Microsoft.AspNetCore.Authorization;
+using MidasShopSolution.ViewModels.Products;
+
 
 namespace MidasShopSolution.CustomerSite.Controllers;
 
@@ -9,16 +12,21 @@ namespace MidasShopSolution.CustomerSite.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IProductApiClient _productApiClient;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger,
+    IProductApiClient productApiClient)
     {
         _logger = logger;
+        _productApiClient = productApiClient;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var user = User.Identity.Name;
-        return View();
+        var FeaturedProducts = await _productApiClient.GetFeaturedProducts(4);
+
+        return View(FeaturedProducts);
     }
 
     public IActionResult Privacy()

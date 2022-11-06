@@ -112,11 +112,11 @@ public class ProductService : IProductService
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<ProductViewModel> GetById(int productId)
+    public async Task<ProductDto> GetById(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
 
-        var productViewModel = new ProductViewModel()
+        var productViewModel = new ProductDto()
         {
             Id = product.Id,
             DateCreated = product.DateCreated,
@@ -135,7 +135,7 @@ public class ProductService : IProductService
         return productViewModel;
     }
 
-    public async Task<PagedResult<ProductViewModel>> GetAllPagingByKeyword(GetManageProductPagingRequest request)
+    public async Task<PagedResult<ProductDto>> GetAllPagingByKeyword(GetManageProductPagingRequest request)
     {
         // 1. Select join
         var query = await _context.Products.Include(p => p.Categories).ToListAsync();
@@ -155,7 +155,7 @@ public class ProductService : IProductService
 
         var data = query.Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize * 10)
-            .Select(x => new ProductViewModel()
+            .Select(x => new ProductDto()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -171,7 +171,7 @@ public class ProductService : IProductService
             }).ToList();
 
         // 4. Select and projection
-        var pagedResult = new PagedResult<ProductViewModel>()
+        var pagedResult = new PagedResult<ProductDto>()
         {
             TotalRecord = totalRow,
             Items = data
@@ -180,7 +180,7 @@ public class ProductService : IProductService
         return pagedResult;
     }
 
-    public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+    public async Task<PagedResult<ProductDto>> GetAllByCategoryId(GetPublicProductPagingRequest request)
     {
         // 1. Select join
         var query = await _context.Products.Include(p => p.Categories).ToListAsync();
@@ -197,7 +197,7 @@ public class ProductService : IProductService
 
         var data = query.Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize * 10)
-            .Select(x => new ProductViewModel()
+            .Select(x => new ProductDto()
             {
                 Name = x.Name,
                 DateCreated = x.DateCreated,
@@ -208,16 +208,50 @@ public class ProductService : IProductService
                 SeoAlias = x.SeoAlias,
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
-                ViewCount = x.ViewCount
+                ViewCount = x.ViewCount,
+                Stock = x.Stock
             }).ToList();
 
         // 4. Select and projection
-        var pagedResult = new PagedResult<ProductViewModel>()
+        var pagedResult = new PagedResult<ProductDto>()
         {
             TotalRecord = totalRow,
             Items = data
         };
         return pagedResult;
+    }
+    public async Task<List<ProductDto>> GetFeaturedProducts(int take)
+    {
+        // 1. Select join + 2. Filter
+        var query = await _context.Products.Include(p => p.ProductImages).Where(p => p.IsFeatured == true).ToListAsync();
+
+        // 3. Paging
+
+        var data = query.OrderByDescending(p => p.DateCreated)
+            .Take(take)
+            .Select(x => new ProductDto()
+            {
+                Name = x.Name,
+                DateCreated = x.DateCreated,
+                Description = x.Description,
+                Details = x.Details,
+                OriginalPrice = x.OriginalPrice,
+                Price = x.Price,
+                Stock = x.Stock,
+                SeoAlias = x.SeoAlias,
+                SeoDescription = x.SeoDescription,
+                SeoTitle = x.SeoTitle,
+                ViewCount = x.ViewCount,
+                ThumbnailImage = x.ProductImages.Find(p => p.IsDefault == true) != null ? x.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+            }).ToList();
+
+        // 4. Select and projection
+        // var pagedResult = new PagedResult<ProductDto>()
+        // {
+        //     TotalRecord = data.Count(),
+        //     Items = data
+        // };
+        return data;
     }
     public async Task<bool> UpdatePrice(int productId, decimal newPrice)
     {
@@ -342,7 +376,7 @@ public class ProductService : IProductService
                 SortOrder = i.SortOrder
             }).ToListAsync();
     }
-    public async Task<Product> CategoryAssign(int id, CategoryAssignRequest request)
+    public async Task<bool> CategoryAssign(int id, CategoryAssignRequest request)
     {
         var product = await _context.Products.Include(p => p.Categories).FirstOrDefaultAsync(p => p.Id == id);
         if (product == null)
@@ -358,13 +392,13 @@ public class ProductService : IProductService
                 product.Categories.Add(categoryItem);
             }
         }
-        await _context.SaveChangesAsync();
+
         // var result = new ApiResult<bool>()
         // {
         //     IsSuccessed = true,
         //     Message = ""
         //     // ResultObj
         // };
-        return product;
+        return await _context.SaveChangesAsync() > 0;
     }
 }

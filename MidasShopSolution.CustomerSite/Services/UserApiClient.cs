@@ -1,9 +1,6 @@
 using MidasShopSolution.ViewModels.Users;
-using MidasShopSolution.ViewModels.Common;
 using Newtonsoft.Json;
 using System.Text;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace MidasShopSolution.CustomerSite.Services
 {
