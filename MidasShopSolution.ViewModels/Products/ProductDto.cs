@@ -1,6 +1,6 @@
 namespace MidasShopSolution.ViewModels.Products;
 
-public class ProductViewModel
+public class ProductDto
 {
     public int Id { get; set; }
     public decimal Price { get; set; }
@@ -16,4 +16,5 @@ public class ProductViewModel
     public string SeoTitle { set; get; }
 
     public string SeoAlias { get; set; }
+    public string ThumbnailImage { get; set; }
 }

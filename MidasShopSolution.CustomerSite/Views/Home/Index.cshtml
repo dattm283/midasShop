@@ -1,56 +1,198 @@
-﻿@{
+﻿@model IEnumerable<MidasShopSolution.ViewModels.Products.ProductDto>;
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@{
     ViewData["Title"] = "Home Page";
 }
+@{
+    Layout = "_Layout";
+}
+@section Styles {
+<link rel="stylesheet" href="~/css/product-list-carousel.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+}
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+<script src="~/js/product-list-carousel.js"></script>
+}
 @section carousel{
-<div class="container-fluid mb-5 p-0">
-    <div class="border-top">
-        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active" style="height: 410px">
-                    <img class="img-fluid" src="https://via.placeholder.com/1349x410.png" alt="Image" />
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 700px">
-                            <h4 class="text-light text-uppercase font-weight-medium mb-3">
-                                Save more with coupons & up to 70% off!
-                            </h4>
-                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">
-                                Super value deal
-                            </h3>
-                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+<div id="myCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="img-fluid" src="https://via.placeholder.com/1349x512.png" alt="Image" />
+
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p>Some representative placeholder content for the first slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="img-fluid" src="https://via.placeholder.com/1349x512.png" alt="Image" />
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="img-fluid" src="https://via.placeholder.com/1349x512.png" alt="Image" />
+
+            <div class="container">
+                <div class="carousel-caption text-end">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+}
+
+<div class="container marketing">
+    <h2 class="featurette-heading fw-normal lh-1">Featured products</h2>
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 col-lg-3 col-sm-3 mb-4 mb-lg-0">
+                <div class="card border h-100">
+                    <div class="d-flex justify-content-between p-3">
+                        <p class="lead mb-0">Today's Combo Offer</p>
+                        <div class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+                        style="width: 35px; height: 35px;">
+                            @{
+                                var stock = item.Stock;
+                            }
+                            <p class="text-white mb-0 small">x @stock</p>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-item" style="height: 410px">
-                    <img class="img-fluid" src="https://via.placeholder.com/1349x410.png" alt="Image" />
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 700px">
-                            <h4 class="text-light text-uppercase font-weight-medium mb-3">
-                                10% Off Your First Order
-                            </h4>
-                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">
-                                Reasonable Price
-                            </h3>
-                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                    @{
+                        var imgSrc = "https://localhost:5001/uploads/" + item.ThumbnailImage;
+                    }
+                    <div class="imgContainer">
+                        <img src="@imgSrc" class="card-img-top img-fluid" alt="Laptop" />
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <p class="small"><a href="#!" class="text-muted">Laptops</a></p>
+                            <p class="small text-danger"><s>@Convert.ToInt32(item.Price).ToString() đ</s>
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5 class="mb-0">@item.Name</h5>
+                            <h5 class="text-dark mb-0">@Convert.ToInt32(item.OriginalPrice).ToString() đ
+                            </h5>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <p class="text-muted mb-0">Available: <span class="fw-bold">@item.Stock</span>
+                            </p>
+                            <div class="ms-auto text-warning">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#header-carousel" data-bs-slide="prev">
-                <div class="btn btn-dark" style="width: 45px; height: 45px">
-                    <span class="carousel-control-prev-icon mb-n2"></span>
-                </div>
-            </a>
-            <a class="carousel-control-next" href="#header-carousel" data-bs-slide="next">
-                <div class="btn btn-dark" style="width: 45px; height: 45px">
-                    <span class="carousel-control-next-icon mb-n2"></span>
-                </div>
-            </a>
+        }
+    </div><!-- /.row -->
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow
+                    your mind.</span></h2>
+            <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose
+                here.</p>
+        </div>
+        <div class="col-md-5">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa"
+                    dy=".3em">500x500</text>
+            </svg>
+
         </div>
     </div>
-</div>
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-muted">See for
+                    yourself.</span></h2>
+            <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
+                layout would work with some actual real-world content in place.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa"
+                    dy=".3em">500x500</text>
+            </svg>
+
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
+                    class="text-muted">Checkmate.</span></h2>
+            <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
+                intended to be actually read, simply here to give you a better view of what this would look like with
+                some actual content. Your content.</p>
+        </div>
+        <div class="col-md-5">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa"
+                    dy=".3em">500x500</text>
+            </svg>
+
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
 </div>

@@ -20,7 +20,14 @@ public class ProductsController : ControllerBase
         _productService = productService;
         _hostingEnvironment = hostingEnvironment;
     }
-
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> GetById(int productId)
+    {
+        var product = await _productService.GetById(productId);
+        if (product == null)
+            return BadRequest("Cannot find product");
+        return Ok(product);
+    }
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
     [HttpGet("category")]
     public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
@@ -35,15 +42,13 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
     // /products/:productId
-    [HttpGet("{productId}")]
-    public async Task<IActionResult> GetById(int productId)
-    {
-        var product = await _productService.GetById(productId);
-        if (product == null)
-            return BadRequest("Cannot find product");
-        return Ok(product);
-    }
 
+    [HttpGet("featured/{take}")]
+    public async Task<IActionResult> GetFeaturedProducts(int take)
+    {
+        var products = await _productService.GetFeaturedProducts(take);
+        return Ok(products);
+    }
     // /products
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
@@ -76,19 +81,6 @@ public class ProductsController : ControllerBase
         return Ok();
     }
 
-    // /products/:productId
-    [HttpDelete("{productId}")]
-    public async Task<IActionResult> Delete(int productId)
-    {
-        var affectedResult = await _productService.Delete(productId);
-        if (affectedResult == 0)
-            return BadRequest();
-
-
-        return Ok();
-    }
-
-    // /products/price/:productId/
     [HttpPatch("{productId}/{newPrice}")]
     public async Task<IActionResult> UpdatePrice(int productId, decimal newPrice)
     {
@@ -104,12 +96,41 @@ public class ProductsController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _productService.CategoryAssign(id, request);
-        // if (!result.IsSuccessed)
-        // {
-        //     return BadRequest(result);
-        // }
-        return Ok(result);
+        var isSuccessful = await _productService.CategoryAssign(id, request);
+        if (!isSuccessful)
+            return BadRequest();
+
+        return Ok();
+    }
+    // /products/:productId
+    [HttpDelete("{productId}")]
+    public async Task<IActionResult> Delete(int productId)
+    {
+        var affectedResult = await _productService.Delete(productId);
+        if (affectedResult == 0)
+            return BadRequest();
+
+
+        return Ok();
+    }
+
+    // /products/price/:productId/
+
+    [HttpGet("{productId}/images")]
+    public async Task<IActionResult> GetListImageByProductId(int productId)
+    {
+        var image = await _productService.GetListImages(productId);
+        if (image == null)
+            return BadRequest("Cannot find product");
+        return Ok(image);
+    }
+    [HttpGet("{productId}/images/{imageId}")]
+    public async Task<IActionResult> GetImageById(int productId, int imageId)
+    {
+        var image = await _productService.GetImageById(imageId);
+        if (image == null)
+            return BadRequest("Cannot find product");
+        return Ok(image);
     }
     //Images
     [HttpPost("{productId}/images")]
@@ -158,12 +179,5 @@ public class ProductsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{productId}/images/{imageId}")]
-    public async Task<IActionResult> GetImageById(int productId, int imageId)
-    {
-        var image = await _productService.GetImageById(imageId);
-        if (image == null)
-            return BadRequest("Cannot find product");
-        return Ok(image);
-    }
+
 }
