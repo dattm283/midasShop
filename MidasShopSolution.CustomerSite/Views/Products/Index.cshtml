@@ -26,7 +26,15 @@
                                 </div>
                             </div>
                             @{
-                                var imgSrc = "https://localhost:5001/uploads/" + item.ThumbnailImage;
+                                var imgSrc = "";
+                                if (item.Images.Count != 0)
+                                {
+                                    imgSrc = "https://localhost:5001/uploads/" + item.Images.First().ImagePath;
+                                }
+                                else
+                                {
+                                    imgSrc = "https://via.placeholder.com/400";
+                                }
                             }
                             <div class="imgContainer">
                                 <img src="@imgSrc" class="card-img-top img-fluid" alt="Laptop" />
@@ -39,7 +47,8 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-3">
-                                    <h5 class="mb-0">@item.Name</h5>
+                                    <h5 class="mb-0"><a class="text-decoration-none"
+                                        href="https://localhost:5002/products/@item.Id">@item.Name</a></h5>
                                     <h5 class="text-dark mb-0">@Convert.ToInt32(item.OriginalPrice).ToString() đ
                                     </h5>
                                 </div>

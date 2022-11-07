@@ -132,7 +132,7 @@ public class ProductService : IProductService
             SeoDescription = product.SeoDescription,
             SeoTitle = product.SeoTitle,
             ViewCount = product.ViewCount,
-            ThumbnailImage = product.ProductImages.Find(p => p.IsDefault == true) != null ? product.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+            Images = product.ProductImages.FindAll(p => p.IsDefault == true)
         };
         return productViewModel;
     }
@@ -159,6 +159,7 @@ public class ProductService : IProductService
             .Take(request.PageSize * 10)
             .Select(x => new ProductDto()
             {
+                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
@@ -170,7 +171,7 @@ public class ProductService : IProductService
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
-                ThumbnailImage = x.ProductImages.Find(p => p.IsDefault == true) != null ? x.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection
@@ -203,6 +204,7 @@ public class ProductService : IProductService
             .Take(request.PageSize * 10)
             .Select(x => new ProductDto()
             {
+                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
@@ -214,7 +216,7 @@ public class ProductService : IProductService
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
-                ThumbnailImage = x.ProductImages.Find(p => p.IsDefault == true) != null ? x.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection
@@ -247,6 +249,7 @@ public class ProductService : IProductService
             .Take(take)
             .Select(x => new ProductDto()
             {
+                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
@@ -258,7 +261,7 @@ public class ProductService : IProductService
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
-                ThumbnailImage = x.ProductImages.Find(p => p.IsDefault == true) != null ? x.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection

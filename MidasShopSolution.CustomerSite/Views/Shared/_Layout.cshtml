@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MidasShopSolution.CustomerSite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/themes/quartz/bootstrap.min.css" />
+    <link id="themeTag" rel="stylesheet" href='~/themes/quartz/bootstrap.min.css' />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MidasShopSolution.CustomerSite.styles.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/0ec71743ed.js" crossorigin="anonymous"></script>
@@ -34,7 +34,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
-
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Themes</a>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" href="#" onclick="adjustTheme('journal')">Journal</a>
+                            <a class="dropdown-item" href="#" onclick="adjustTheme('quartz')">Quartz</a>
+                            <a class="dropdown-item" href="#" onclick="adjustTheme('sketchy')">Sketchy</a>
+                            <a class="dropdown-item" href="#" onclick="adjustTheme('united')">United</a>
+                        </div>
+                    </li>
                 </ul>
                 @if (User.Identity.Name != null)
                 {
@@ -69,7 +78,7 @@
         @RenderSection("carousel", required: false)
         <div class="container-fluid">
             @* @await Component.InvokeAsync("Sidebar") *@
-            @RenderSection("sidebar", false)
+            @* @RenderSection("sidebar", false) *@
             @RenderBody()
         </div>
     </div>
@@ -152,6 +161,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/change-theme.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 

@@ -1,3 +1,5 @@
+using MidasShopSolution.Data.Entities;
+
 namespace MidasShopSolution.ViewModels.Products;
 
 public class ProductDto
@@ -16,5 +18,7 @@ public class ProductDto
     public string SeoTitle { set; get; }
 
     public string SeoAlias { get; set; }
-    public string ThumbnailImage { get; set; }
+    public List<ProductImage> Images { get; set; }
+
+    public List<Category> Categories { get; set; }
 }

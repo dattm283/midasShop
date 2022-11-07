@@ -1,6 +1,10 @@
 @* @model Task<List<MidasShopSolution.ViewModels.Categories.CategoryDto>> *@
 
 <div class="col-sm-3 sidenav card mb-3">
+    <form class="d-flex p-2">
+        <input class="form-control me-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Find</button>
+    </form>
     @* @await Component.InvokeAsync("Sidebar") *@
     @* <ul class="list-unstyled">
         @{
