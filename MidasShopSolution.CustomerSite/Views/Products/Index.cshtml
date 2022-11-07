@@ -1,4 +1,4 @@
-@model IEnumerable<MidasShopSolution.ViewModels.Products.ProductDto>;
+@model MidasShopSolution.ViewModels.Products.GetProductsByCategoryDto;
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,9 +9,9 @@
     <div class="row content p-3">
         @Html.Partial("Component/Sidebar/Default")
         <div class="col-sm-9 p-4">
-            <h1>@ViewData["Title"]</h1>
+            <h1>@Model.Category.Name</h1>
             <div class="row">
-                @foreach (var item in Model)
+                @foreach (var item in Model.Products.Items)
                 {
                     <div class="col-md-12 col-lg-4 col-sm-3 mb-4 mb-lg-0 my-3">
                         <div class="card border h-100">
@@ -62,3 +62,4 @@
             </div>
         </div>
     </div>
+</div>
