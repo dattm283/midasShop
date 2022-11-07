@@ -5,6 +5,8 @@ using MidasShopSolution.Api.Utilities.Exceptions;
 using MidasShopSolution.ViewModels.Products;
 using MidasShopSolution.ViewModels.ProductImages;
 using MidasShopSolution.ViewModels.Common;
+using MidasShopSolution.ViewModels.Categories;
+
 
 namespace MidasShopSolution.Api.Services.Products;
 
@@ -114,23 +116,23 @@ public class ProductService : IProductService
 
     public async Task<ProductDto> GetById(int productId)
     {
-        var product = await _context.Products.FindAsync(productId);
+        var product = await _context.Products.Include(p => p.ProductImages).FirstOrDefaultAsync(p => p.Id == productId);
 
         var productViewModel = new ProductDto()
         {
             Id = product.Id,
+            Name = product.Name,
             DateCreated = product.DateCreated,
+            Description = product.Description,
+            Details = product.Details,
             OriginalPrice = product.OriginalPrice,
             Price = product.Price,
             Stock = product.Stock,
-            ViewCount = product.ViewCount,
-
-            Description = product.Description,
-            Details = product.Details,
-            Name = product.Name,
             SeoAlias = product.SeoAlias,
             SeoDescription = product.SeoDescription,
-            SeoTitle = product.SeoTitle
+            SeoTitle = product.SeoTitle,
+            ViewCount = product.ViewCount,
+            Images = product.ProductImages.FindAll(p => p.IsDefault == true)
         };
         return productViewModel;
     }
@@ -164,10 +166,12 @@ public class ProductService : IProductService
                 Details = x.Details,
                 OriginalPrice = x.OriginalPrice,
                 Price = x.Price,
+                Stock = x.Stock,
                 SeoAlias = x.SeoAlias,
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
-                ViewCount = x.ViewCount
+                ViewCount = x.ViewCount,
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection
@@ -180,13 +184,14 @@ public class ProductService : IProductService
         return pagedResult;
     }
 
-    public async Task<PagedResult<ProductDto>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+    public async Task<GetProductsByCategoryDto> GetAllByCategoryId(GetPublicProductPagingRequest request)
     {
         // 1. Select join
-        var query = await _context.Products.Include(p => p.Categories).ToListAsync();
+        var query = await _context.Products.Include(p => p.Categories).Include(p => p.ProductImages).ToListAsync();
 
+        var categoryQuery = await _context.Categories.FindAsync(request.CategoryId);
         // 2. Filter
-        if (request.CategoryId != null)
+        if (categoryQuery != null)
         {
             // query = query.Where(x => request.CategoryIds.Contains(x.p.Categories.FindAll()));
             query = query.Where(p => p.Categories.Any(c => c.Id == request.CategoryId)).ToList();
@@ -199,17 +204,19 @@ public class ProductService : IProductService
             .Take(request.PageSize * 10)
             .Select(x => new ProductDto()
             {
+                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
                 Details = x.Details,
                 OriginalPrice = x.OriginalPrice,
                 Price = x.Price,
+                Stock = x.Stock,
                 SeoAlias = x.SeoAlias,
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
-                Stock = x.Stock
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection
@@ -218,7 +225,18 @@ public class ProductService : IProductService
             TotalRecord = totalRow,
             Items = data
         };
-        return pagedResult;
+        var categoryData = new CategoryDto()
+        {
+            Id = categoryQuery.Id,
+            Name = categoryQuery.Name,
+            ParentId = categoryQuery.ParentId
+        };
+        var productsByCategoryList = new GetProductsByCategoryDto()
+        {
+            Category = categoryData,
+            Products = pagedResult
+        };
+        return productsByCategoryList;
     }
     public async Task<List<ProductDto>> GetFeaturedProducts(int take)
     {
@@ -231,6 +249,7 @@ public class ProductService : IProductService
             .Take(take)
             .Select(x => new ProductDto()
             {
+                Id = x.Id,
                 Name = x.Name,
                 DateCreated = x.DateCreated,
                 Description = x.Description,
@@ -242,7 +261,7 @@ public class ProductService : IProductService
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
-                ThumbnailImage = x.ProductImages.Find(p => p.IsDefault == true) != null ? x.ProductImages.Find(p => p.IsDefault == true).ImagePath : ""
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
         // 4. Select and projection

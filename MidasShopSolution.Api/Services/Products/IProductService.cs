@@ -8,7 +8,7 @@ namespace MidasShopSolution.Api.Services.Products;
 public interface IProductService
 {
     Task<PagedResult<ProductDto>> GetAllPagingByKeyword(GetManageProductPagingRequest request);
-    Task<PagedResult<ProductDto>> GetAllByCategoryId(GetPublicProductPagingRequest request);
+    Task<GetProductsByCategoryDto> GetAllByCategoryId(GetPublicProductPagingRequest request);
     Task<List<ProductDto>> GetFeaturedProducts(int take);
     Task<ProductDto> GetById(int productId);
     Task<int> Create(ProductCreateRequest request);

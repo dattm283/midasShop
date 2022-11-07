@@ -24,7 +24,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var user = User.Identity.Name;
-        var FeaturedProducts = await _productApiClient.GetFeaturedProducts(4);
+        var FeaturedProducts = await _productApiClient.GetFeaturedProducts(3);
 
         return View(FeaturedProducts);
     }

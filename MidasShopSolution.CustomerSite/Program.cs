@@ -8,7 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
-     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
+     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+     .AddRazorOptions(options =>
+    {
+        options.ViewLocationFormats.Add("/{0}.cshtml");
+    });
 builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
@@ -27,6 +31,7 @@ builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services
     .AddRefitClient<IProductApiClient>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001/"));
+
 
 var app = builder.Build();
 

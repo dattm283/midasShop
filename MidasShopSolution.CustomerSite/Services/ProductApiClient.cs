@@ -15,9 +15,13 @@ namespace MidasShopSolution.CustomerSite.Services
         {
             return await _ProductApiClient.GetFeaturedProducts(take);
         }
-        public async Task<PagedResult<ProductDto>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+        public async Task<GetProductsByCategoryDto> GetAllByCategoryId(GetPublicProductPagingRequest request)
         {
             return await _ProductApiClient.GetAllByCategoryId(request);
+        }
+        public async Task<ProductDto> GetById(int productId)
+        {
+            return await _ProductApiClient.GetById(productId);
         }
     }
 }
