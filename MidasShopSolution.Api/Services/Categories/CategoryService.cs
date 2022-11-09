@@ -1,6 +1,9 @@
 using MidasShopSolution.Data.EF;
 using MidasShopSolution.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
+using MidasShopSolution.Data.Entities;
+using MidasShopSolution.Api.Utilities.Exceptions;
+
 
 namespace MidasShopSolution.Api.Services.Categories;
 
@@ -33,5 +36,40 @@ public class CategoryService : ICategoryService
             Name = category.Name,
             ParentId = category.ParentId
         };
+    }
+
+      public async Task<int> Create(CategoryDto request)
+    {
+        var category = new Category()
+        {
+            Id = request.Id,
+            Name = request.Name,
+            ParentId = request.ParentId
+        };
+
+        _context.Categories.Add(category);
+        await _context.SaveChangesAsync();
+        return category.Id;
+    }
+
+     public async Task<int> Update(CategoryDto request)
+    {
+        var category = await _context.Categories.FindAsync(request.Id);
+        if (category == null)
+            throw new MidasShopException($"Cannot find a category with id: {request.Id}");
+
+        category.Name = request.Name;
+        category.ParentId = request.ParentId;
+       
+        return await _context.SaveChangesAsync();
+    }
+
+     public async Task<int> Delete(int categoryId)
+    {
+        var category = await _context.Categories.FindAsync(categoryId);
+        if (category == null) throw new MidasShopException($"Cannot find a category with Id: {categoryId}");
+
+        _context.Categories.Remove(category);
+        return await _context.SaveChangesAsync();
     }
 }

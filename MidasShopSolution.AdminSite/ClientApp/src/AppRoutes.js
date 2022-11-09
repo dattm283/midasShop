@@ -42,7 +42,7 @@ const AppRoutes = [
     element: <Products />
   },
   {
-    path: '/cateroies',
+    path: '/categories',
     element: <Categories />
   }
 ];

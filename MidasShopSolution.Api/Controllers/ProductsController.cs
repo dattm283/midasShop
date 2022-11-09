@@ -97,7 +97,7 @@ public class ProductsController : ControllerBase
         return Ok();
     }
     [HttpPut("{id}/categories")]
-    public async Task<IActionResult> CategoryAssign(int id, [FromForm] CategoryAssignRequest request)
+    public async Task<IActionResult> CategoryAssign(int id, CategoryAssignRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

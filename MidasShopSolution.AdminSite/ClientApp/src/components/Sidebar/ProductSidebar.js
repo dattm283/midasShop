@@ -16,14 +16,16 @@ const Sidebar = props => {
     console.log(categories)
     return (
         <>
-            <Nav variant="tabs" className="col-md-12 d-none d-md-block bg-light sidebar" defaultActiveKey={"/products/" + categorySlug}>
-                <Nav.Item> <Nav.Link className="text-dark" href="/products/create">Create</Nav.Link></Nav.Item>
-                <Nav.Item> <Nav.Link className="text-dark" href="/products">All</Nav.Link></Nav.Item>
-                {categories.map(category =>
-                    <Nav.Item>
-                        <Nav.Link className="text-dark" eventKey={"/products/" + category.id} href={"/products/" + category.id}>{category.name}</Nav.Link>
-                    </Nav.Item>
-                )}
+            <Nav variant="tabs" className="col-md-12 d-none d-md-block bg-light" defaultActiveKey={"/products/" + categorySlug}>
+                <ul className="navbar-nav flex-grow">
+                    <Nav.Item> <Nav.Link className="text-dark" href="/products/create">Create</Nav.Link></Nav.Item>
+                    <Nav.Item> <Nav.Link className="text-dark" href="/products">All</Nav.Link></Nav.Item>
+                    {categories.map(category =>
+                        <Nav.Item>
+                            <Nav.Link className="text-dark" eventKey={"/products/" + category.id} href={"/products/" + category.id}>{category.name}</Nav.Link>
+                        </Nav.Item>
+                    )}
+                </ul>
             </Nav>
         </>
     );

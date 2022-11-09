@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button, Modal, Image } from "react-bootstrap";
 import Sidebar from "../../components/Sidebar/ProductSidebar";
 import ReactPaginate from 'react-paginate';
 import { UpdateButton } from "./update";
+import { AssignCategoryButton } from "./assignCategory";
+import { GetProductImagesButton } from "../productImages";
+
 
 const handleDeleteProduct = (id) => {
 
@@ -28,13 +31,20 @@ function Items({ currentItems }) {
             {currentItems &&
                 currentItems.map(product =>
                     <tr key={product.id}>
-                        <td>{product.id}</td>
                         <td>{product.name}</td>
+                        <td><Image
+                            src={"https://localhost:5001/uploads/" + product.images[0].imagePath}
+                            rounded
+                            width={80}
+                            height={80}
+                        /></td>
+                        <td>{product.id}</td>
                         <td>{product.price}</td>
                         <td>{product.originalPrice}</td>
                         <td>{product.stock}</td>
-                        <td>{product.dateCreated}</td>
-                        <td><UpdateButton productId={product.id} /> <Button variant="danger" type="button" className="delete-product-btn" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button></td>
+                        <td>{String(new Date(product.dateCreated))}</td>
+                        <td><AssignCategoryButton productId={product.id} /><UpdateButton productId={product.id} /> </td>
+                        <td> <Button variant="danger" type="button" className="delete-product-btn" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button> <GetProductImagesButton productId={product.id} /></td>
                     </tr>
                 )}
         </>
@@ -110,27 +120,28 @@ const Products = () => {
         <Container fluid>
 
             <Row>
-                <Col xs={2} id="sidebar-wrapper">
-                    <Sidebar />
-                </Col>
-                <Col xs={10} id="page-content-wrapper">
-                    <table className='table table-striped' aria-labelledby="tabelLabel">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Original Price</th>
-                                <th>Stock</th>
-                                <th>Date created</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <PaginatedItems itemsPerPage={5} items={[...products]} />
-                        </tbody>
-                    </table>
-                </Col>
+                <Sidebar />
+            </Row>
+            <Row>
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>    </th>
+                            <th>Id</th>
+                            <th>Price</th>
+                            <th>Original Price</th>
+                            <th>Stock</th>
+                            <th>Date created</th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <PaginatedItems itemsPerPage={5} items={[...products]} />
+                    </tbody>
+                </table>
             </Row>
         </Container>
     );

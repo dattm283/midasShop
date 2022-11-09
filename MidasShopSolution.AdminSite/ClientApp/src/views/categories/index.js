@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar/ProductSidebar";
 import ReactPaginate from 'react-paginate';
 import { UpdateButton } from "./update";
 
-const handleDeleteProduct = (id) => {
+const handleDeleteCategory = (id) => {
 
     axios
         .delete(`https://localhost:5001/api/Products/${id}`)
@@ -26,14 +26,12 @@ function Items({ currentItems }) {
     return (
         <>
             {currentItems &&
-                currentItems.map(product =>
-                    <tr key={product.id}>
-                        <td>{product.id}</td>
-                        <td>{product.name}</td>
-                        <td>{product.price}</td>
-                        <td>{product.originalPrice}</td>
-                        <td>{product.stock}</td>
-                        <td><UpdateButton productId={product.id} /> <Button variant="danger" type="button" className="delete-product-btn" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button></td>
+                currentItems.map(category =>
+                    <tr key={category.id}>
+                        <td>{category.id}</td>
+                        <td>{category.name}</td>
+                        <td>{category.parentId}</td>
+                        {/* <td><UpdateButton productId={category.id} /> <Button variant="danger" type="button" className="delete-product-btn" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button></td> */}
                     </tr>
                 )}
         </>
@@ -89,21 +87,12 @@ function PaginatedItems({ itemsPerPage, items }) {
     );
 }
 const Categories = () => {
-    let { categorySlug } = useParams();
     // console.log("slug", categorySlug);
-    const [products, setProducts] = useState([]);
-    const [productCategory, setProductCategory] = useState([]);
-    var path = ''
-    if (categorySlug) {
-        path = `https://localhost:5001/api/Products/category?CategoryId=${categorySlug}&PageIndex=1&PageSize=100`
-    } else {
-        path = `https://localhost:5001/api/Products?PageIndex=1&PageSize=100`
-    }
+    const [category, setCategory] = useState([]);
     useEffect(() => {
         axios
-            .get(path)
-            .then((res) => setProducts(categorySlug ? res.data.products.items : res.data.items))
-            .then((res) => setProductCategory(categorySlug ? res.data.category : []));
+            .get("https://localhost:5001/api/Categories")
+            .then((res) => setCategory(res.data));
     }, []);
     return (
         <Container fluid>
@@ -119,13 +108,11 @@ const Categories = () => {
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Original Price</th>
-                                <th>Stock</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <PaginatedItems itemsPerPage={5} items={[...products]} />
+                            <PaginatedItems itemsPerPage={5} items={[...category]} />
                         </tbody>
                     </table>
                 </Col>
