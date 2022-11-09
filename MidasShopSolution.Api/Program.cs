@@ -95,7 +95,9 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("https://localhost:5001",
         "https://localhost:5002",
         "https://localhost:5003",
-        "https://localhost:5004");
+        "https://localhost:5004")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 var app = builder.Build();

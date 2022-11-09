@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using MidasShopSolution.Api.Services.Products;
 using MidasShopSolution.ViewModels.Products;
 using MidasShopSolution.ViewModels.ProductImages;
+using MidasShopSolution.ViewModels.Common;
 
 namespace MidasShopSolution.Api.Controllers;
 
@@ -27,6 +28,11 @@ public class ProductsController : ControllerBase
         if (product == null)
             return BadRequest("Cannot find product");
         return Ok(product);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAllProduct([FromQuery]PagingRequestBase request) {
+        var products = await _productService.GetAllProduct(request);
+        return Ok(products);
     }
     // /products? pageIndex={pageIndex}&pageSize={pageSize}&categoryId={categoryId}
     [HttpGet("category")]
@@ -91,7 +97,7 @@ public class ProductsController : ControllerBase
         return Ok();
     }
     [HttpPut("{id}/categories")]
-    public async Task<IActionResult> CategoryAssign(int id, [FromBody] CategoryAssignRequest request)
+    public async Task<IActionResult> CategoryAssign(int id, [FromForm] CategoryAssignRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

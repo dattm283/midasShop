@@ -3,6 +3,10 @@ import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { ListUser } from "./views/users/ListUser.js";
 import Login from "./views/users/Login";
+import Products from "./views/products";
+import Categories from "./views/categories";
+import CreateForm from "./views/products/create";
+
 
 const AppRoutes = [
   {
@@ -25,6 +29,22 @@ const AppRoutes = [
     path: '/users/login',
     element: <Login />
   },
+  {
+    path: '/products/create',
+    element: <CreateForm />
+  },
+  {
+    path: '/products/:categorySlug',
+    element: <Products />
+  },
+  {
+    path: '/products',
+    element: <Products />
+  },
+  {
+    path: '/cateroies',
+    element: <Categories />
+  }
 ];
 
 export default AppRoutes;
