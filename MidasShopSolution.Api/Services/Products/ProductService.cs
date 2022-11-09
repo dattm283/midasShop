@@ -43,9 +43,9 @@ public class ProductService : IProductService
             Name = request.Name,
             Description = request.Description,
             Details = request.Details,
-            SeoDescription = request.SeoDescription,
-            SeoAlias = request.SeoAlias,
-            SeoTitle = request.SeoTitle,
+            SeoDescription = request.SeoDescription != null ? request.SeoDescription : request.Description,
+            SeoAlias = request.SeoAlias != null ? request.SeoAlias : request.Description,
+            SeoTitle = request.SeoTitle != null ? request.SeoTitle : request.Name,
             IsFeatured = request.IsFeatured
         };
         if (request.Images != null)
@@ -132,9 +132,45 @@ public class ProductService : IProductService
             SeoDescription = product.SeoDescription,
             SeoTitle = product.SeoTitle,
             ViewCount = product.ViewCount,
+            IsFeatured = product.IsFeatured,
             Images = product.ProductImages.FindAll(p => p.IsDefault == true)
         };
         return productViewModel;
+    }
+    public async Task<PagedResult<ProductDto>> GetAllProduct(PagingRequestBase request){
+        // 1. Select join
+        var query = await _context.Products.Include(p => p.Categories).Include(p => p.ProductImages).ToListAsync();
+
+        // 3. Paging
+        int totalRow = query.Count();
+
+        var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .Select(x => new ProductDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                DateCreated = x.DateCreated,
+                Description = x.Description,
+                Details = x.Details,
+                OriginalPrice = x.OriginalPrice,
+                Price = x.Price,
+                Stock = x.Stock,
+                SeoAlias = x.SeoAlias,
+                SeoDescription = x.SeoDescription,
+                SeoTitle = x.SeoTitle,
+                ViewCount = x.ViewCount,
+                IsFeatured = x.IsFeatured,
+                Images = x.ProductImages.FindAll(p => p.IsDefault == true)
+            }).ToList();
+
+        // 4. Select and projection
+        var pagedResult = new PagedResult<ProductDto>()
+        {
+            TotalRecord = totalRow,
+            Items = data
+        };
+        return pagedResult;
     }
 
     public async Task<PagedResult<ProductDto>> GetAllPagingByKeyword(GetManageProductPagingRequest request)
@@ -156,7 +192,7 @@ public class ProductService : IProductService
         int totalRow = query.Count();
 
         var data = query.Skip((request.PageIndex - 1) * request.PageSize)
-            .Take(request.PageSize * 10)
+            .Take(request.PageSize)
             .Select(x => new ProductDto()
             {
                 Id = x.Id,
@@ -167,10 +203,11 @@ public class ProductService : IProductService
                 OriginalPrice = x.OriginalPrice,
                 Price = x.Price,
                 Stock = x.Stock,
-                SeoAlias = x.SeoAlias,
-                SeoDescription = x.SeoDescription,
-                SeoTitle = x.SeoTitle,
+                SeoAlias = x.SeoAlias != null ? x.SeoAlias : "",
+                SeoDescription = x.SeoDescription != null ? x.SeoDescription : "",
+                SeoTitle = x.SeoTitle != null ? x.SeoTitle : "",
                 ViewCount = x.ViewCount,
+                IsFeatured = x.IsFeatured,
                 Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
@@ -201,7 +238,7 @@ public class ProductService : IProductService
         int totalRow = query.Count();
 
         var data = query.Skip((request.PageIndex - 1) * request.PageSize)
-            .Take(request.PageSize * 10)
+            .Take(request.PageSize)
             .Select(x => new ProductDto()
             {
                 Id = x.Id,
@@ -216,6 +253,7 @@ public class ProductService : IProductService
                 SeoDescription = x.SeoDescription,
                 SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
+                IsFeatured = x.IsFeatured,
                 Images = x.ProductImages.FindAll(p => p.IsDefault == true)
             }).ToList();
 
