@@ -19,4 +19,5 @@ public class Product
     public List<Category> Categories { get; set; }
     public List<Cart> Carts { get; set; }
     public List<ProductImage> ProductImages { get; set; }
+    public List<Comment> Comments { get; set; }
 }

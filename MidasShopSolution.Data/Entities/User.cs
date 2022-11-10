@@ -10,4 +10,6 @@ public class User : IdentityUser<Guid>
 
     public List<Cart> Carts { get; set; }
     public List<Order> Orders { get; set; }
+    public List<Comment> Comments { get; set; }
+
 }
