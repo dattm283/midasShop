@@ -38,13 +38,18 @@ public class CategoryService : ICategoryService
         };
     }
 
-      public async Task<int> Create(CategoryDto request)
+    public async Task<int> Create(CreateCategoryRequestDto request)
     {
         var category = new Category()
         {
-            Id = request.Id,
             Name = request.Name,
-            ParentId = request.ParentId
+            ParentId = request.ParentId,
+            SortOrder = request.SortOrder,
+            IsShowOnHome = request.IsShowOnHome,
+            Status = request.Status,
+            SeoAlias = request.Name,
+            SeoTitle = request.Name,
+            SeoDescription = request.SeoDescription
         };
 
         _context.Categories.Add(category);
@@ -52,19 +57,24 @@ public class CategoryService : ICategoryService
         return category.Id;
     }
 
-     public async Task<int> Update(CategoryDto request)
+    public async Task<int> Update(int categoryId, CreateCategoryRequestDto request)
     {
-        var category = await _context.Categories.FindAsync(request.Id);
+        var category = await _context.Categories.FindAsync(categoryId);
         if (category == null)
-            throw new MidasShopException($"Cannot find a category with id: {request.Id}");
+            throw new MidasShopException($"Cannot find a category with id: {categoryId}");
 
         category.Name = request.Name;
         category.ParentId = request.ParentId;
-       
+        category.SortOrder = request.SortOrder;
+        category.IsShowOnHome = request.IsShowOnHome;
+        category.Status = request.Status;
+        category.SeoAlias = request.Name;
+        category.SeoDescription = request.SeoDescription;
+
         return await _context.SaveChangesAsync();
     }
 
-     public async Task<int> Delete(int categoryId)
+    public async Task<int> Delete(int categoryId)
     {
         var category = await _context.Categories.FindAsync(categoryId);
         if (category == null) throw new MidasShopException($"Cannot find a category with Id: {categoryId}");
