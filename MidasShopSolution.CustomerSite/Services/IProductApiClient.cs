@@ -11,6 +11,8 @@ namespace MidasShopSolution.CustomerSite.Services
 
         [Get("/api/Products/category")]
         Task<GetProductsByCategoryDto> GetAllByCategoryId(GetPublicProductPagingRequest request);
+        [Get("/api/Products")]
+        Task<GetProductsByCategoryDto> GetAll(PagingRequestBase request);
         [Get("/api/Products/{productId}")]
         Task<ProductDto> GetById(int productId);
     }

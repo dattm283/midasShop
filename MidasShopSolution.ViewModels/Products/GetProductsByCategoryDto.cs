@@ -6,7 +6,7 @@ namespace MidasShopSolution.ViewModels.Products
 {
     public class GetProductsByCategoryDto
     {
-        public CategoryDto Category { get; set; }
+        public CategoryDto? Category { get; set; }
         public PagedResult<ProductDto> Products { get; set; }
     }
 }

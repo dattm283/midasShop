@@ -137,7 +137,8 @@ public class ProductService : IProductService
         };
         return productViewModel;
     }
-    public async Task<PagedResult<ProductDto>> GetAllProduct(PagingRequestBase request){
+    public async Task<PagedResult<ProductDto>> GetAllProduct(PagingRequestBase request)
+    {
         // 1. Select join
         var query = await _context.Products.Include(p => p.Categories).Include(p => p.ProductImages).ToListAsync();
 
@@ -203,9 +204,9 @@ public class ProductService : IProductService
                 OriginalPrice = x.OriginalPrice,
                 Price = x.Price,
                 Stock = x.Stock,
-                SeoAlias = x.SeoAlias != null ? x.SeoAlias : "",
-                SeoDescription = x.SeoDescription != null ? x.SeoDescription : "",
-                SeoTitle = x.SeoTitle != null ? x.SeoTitle : "",
+                SeoAlias = x.SeoAlias,
+                SeoDescription = x.SeoDescription,
+                SeoTitle = x.SeoTitle,
                 ViewCount = x.ViewCount,
                 IsFeatured = x.IsFeatured,
                 Images = x.ProductImages.FindAll(p => p.IsDefault == true)
@@ -319,11 +320,13 @@ public class ProductService : IProductService
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateStock(int productId, int addedQuantity)
+    public async Task<bool> UpdateStar(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
+        var commentList = await _context.Comments.Where(c => c.ProductId == productId).ToListAsync();
         if (product == null) throw new MidasShopException($"Cannot find a product with id: {productId}");
-        product.Stock += addedQuantity;
+        product.ViewCount = Convert.ToInt32((from item in commentList
+                                             select item.Rate).Average());
         return await _context.SaveChangesAsync() > 0;
     }
 

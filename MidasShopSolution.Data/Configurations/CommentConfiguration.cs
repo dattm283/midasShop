@@ -4,7 +4,7 @@ using MidasShopSolution.Data.Entities;
 
 namespace MidasShopSolution.Data.Configurations
 {
-    public interface CommentConfiguration : IEntityTypeConfiguration<Comment>
+    public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
@@ -21,7 +21,7 @@ namespace MidasShopSolution.Data.Configurations
 
             builder
                 .HasOne(c => c.User)
-                .WithMany(p => p.Comments)
+                .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId);
         }
     }

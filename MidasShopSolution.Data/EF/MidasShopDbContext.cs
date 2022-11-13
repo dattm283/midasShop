@@ -19,6 +19,7 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new CommentConfiguration());
 
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
@@ -63,6 +64,8 @@ public class MidasShopDbContext : IdentityDbContext<User, Role, Guid>
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+
     // public DbSet<CategoryProduct> CategoryProducts { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Contact> Contacts { get; set; }

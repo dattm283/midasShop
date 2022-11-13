@@ -23,6 +23,7 @@
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
+    <h1>@ViewBag.userId</h1>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img class="img-fluid" src="https://via.placeholder.com/1349x512.png" alt="Image" />
@@ -120,11 +121,9 @@
                             <p class="text-muted mb-0">Available: <span class="fw-bold">@item.Stock</span>
                             </p>
                             <div class="ms-auto text-warning">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+                                <input class="rating" max="5" readonly step="0.01"
+                                style="--value;--value:@item.ViewCount;--starsize:1.5rem" type="range"
+                                value="@item.ViewCount">
                             </div>
                         </div>
                     </div>
