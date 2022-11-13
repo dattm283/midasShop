@@ -6,8 +6,8 @@ namespace MidasShopSolution.Api.Services.Categories
     {
         Task<List<CategoryDto>> GetAll();
         Task<CategoryDto> GetById(int id);
-        Task<int> Create(CategoryDto request);
-        Task<int> Update(CategoryDto request);
+        Task<int> Create(CreateCategoryRequestDto request);
+        Task<int> Update(int categoryId, CreateCategoryRequestDto request);
         Task<int> Delete(int categoryId);
     }
 }

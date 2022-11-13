@@ -14,10 +14,12 @@
                 <button class="accordion-button btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
                     data-bs-target="#home-collapse" aria-expanded="true">
                     Categories
+
                 </button>
             </h2>
             <div class="collapse p-3" id="home-collapse" style="">
                 <div class="list-group list-group-flush">
+
                     @foreach (var item in ViewData["CategoryList"] as ICollection<CategoryDto>)
                     {
                         var path = "https://localhost:5002/products/?CategoryId=" + item.Id + "&PageIndex=1&PageSize=6";
