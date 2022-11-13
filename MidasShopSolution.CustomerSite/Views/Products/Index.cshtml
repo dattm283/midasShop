@@ -1,0 +1,111 @@
+@model MidasShopSolution.ViewModels.Products.GetProductsByCategoryDto;
+
+@{
+    ViewData["Title"] = "Index";
+    var CategoryId = Convert.ToInt32(ViewData["CategoryId"]);
+    var PageIndex = Convert.ToInt32(ViewData["PageIndex"]);
+    var PageSize = Convert.ToInt32(ViewData["PageSize"]);
+}
+
+<div class="">
+    @* <partial name="Sidebar" />
+    *@
+    <div class="row content p-3">
+        @Html.Partial("Component/Sidebar/Default")
+        <div class="col-sm-9 p-4">
+            <h1>@Model.Category.Name</h1>
+            <div class="row mb-3">
+                @foreach (var item in Model.Products.Items)
+                {
+                    <div class="col-md-12 col-lg-4 col-sm-3 mb-4 mb-lg-0 my-3">
+                        <div class="card border h-100">
+                            <div class="d-flex justify-content-between p-3">
+                                <p class="lead mb-0">Today's Combo Offer</p>
+                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+                                style="width: 35px; height: 35px;">
+                                    @{
+                                        var stock = item.Stock;
+                                    }
+                                    <p class="text-white mb-0 small">x @stock</p>
+                                </div>
+                            </div>
+                            @{
+                                var imgSrc = "";
+                                if (item.Images.Count != 0)
+                                {
+                                    imgSrc = "https://localhost:5001/uploads/" + item.Images.First().ImagePath;
+                                }
+                                else
+                                {
+                                    imgSrc = "https://via.placeholder.com/400";
+                                }
+                            }
+                            <div class="imgContainer">
+                                <img src="@imgSrc" class="card-img-top img-fluid" alt="Laptop" />
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <p class="small"><a href="#!" class="text-muted">Laptops</a></p>
+                                    <p class="small text-danger"><s>@Convert.ToInt32(item.Price).ToString() đ</s>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="mb-0"><a class="text-decoration-none"
+                                        href="https://localhost:5002/products/@item.Id">@item.Name</a></h5>
+                                    <h5 class="text-dark mb-0">@Convert.ToInt32(item.OriginalPrice).ToString() đ
+                                    </h5>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <p class="text-muted mb-0">Available: <span class="fw-bold">@item.Stock</span>
+                                    </p>
+                                    <div class="ms-auto text-warning">
+                                        <input class="rating" max="5" readonly step="0.01"
+                                        style="--value;--value:@item.ViewCount;--starsize:1.5rem" type="range"
+                                        value="@item.ViewCount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="d-flex align-items-end">
+                <ul class="pagination ms-auto">
+                    @if (PageIndex == 1)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="" disabl>&laquo;</a>
+                        </li>
+                    }
+                    else
+                    {
+                        var PageIndexAfter = PageIndex - 1;
+                        <li class="page-item">
+                            <a class="page-link" href="?CategoryId=@CategoryId&PageIndex=@PageIndexAfter&PageSize=6"
+                            disabl>&laquo;</a>
+                        </li>
+                    }
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">@PageIndex</a>
+                    </li>
+                    @if (Model.Products.TotalRecord < PageSize || Model.Products.Items.Count() == 0)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="?CategoryId=@CategoryId&PageIndex=1&PageSize=6">&raquo;</a>
+                        </li>
+                    }
+                    else
+                    {
+                        var PageIndexBefore = PageIndex + 1;
+                        <li class="page-item">
+                            <a class="page-link"
+                            href="?CategoryId=@CategoryId&PageIndex=@PageIndexBefore&PageSize=6">&raquo;</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

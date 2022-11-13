@@ -1,0 +1,53 @@
+@using MidasShopSolution.ViewModels.Users
+@model LoginRequest
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg my-5">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Login</h3>
+                            </div>
+                            <div class="card-body">
+                                <form asp-action="Login" asp-controller="Users" method="post">
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" asp-for="UserName" type="text"
+                                            placeholder="Enter username" />
+                                        <label for="inputEmail">Username</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" asp-for="Password" type="password"
+                                            placeholder="Password" />
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" asp-for="RememberMe" type="checkbox" value="" />
+                                        <label class="form-check-label" for="inputRememberPassword">Remember
+                                            Password</label>
+                                    </div>
+                                    <div class="mt-4 mb-0">
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary btn-block" type="submit">Login</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-3">
+                                <div class="small">
+                                    <a href="/users/register" href="/users/login">Need an account? Signup!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

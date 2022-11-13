@@ -1,0 +1,32 @@
+@* @model Task<List<MidasShopSolution.ViewModels.Categories.CategoryDto>> *@
+@using MidasShopSolution.ViewModels.Categories;
+@{
+    var categoryList = ViewData["CategoryList"];
+}
+<div class="col-sm-3 sidenav card mb-3">
+    <form class="d-flex p-2">
+        <input class="form-control me-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Find</button>
+    </form>
+    <ul class="list-unstyled">
+        <li class="mb-1">
+            <h2 class="card-body mb-0 pb-0" id="headingOne">
+                <button class="accordion-button btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
+                    data-bs-target="#home-collapse" aria-expanded="true">
+                    Categories
+
+                </button>
+            </h2>
+            <div class="collapse p-3" id="home-collapse" style="">
+                <div class="list-group list-group-flush">
+
+                    @foreach (var item in ViewData["CategoryList"] as ICollection<CategoryDto>)
+                    {
+                        var path = "https://localhost:5002/products/?CategoryId=" + item.Id + "&PageIndex=1&PageSize=6";
+                        <a href="@path" class="nav-item nav-link list-group-item list-group-item-action">@item.Name</a>
+                    }
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
