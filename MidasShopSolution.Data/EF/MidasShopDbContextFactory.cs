@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace MidasShopSolution.Data.EF;
 
-public class MidasShopDbContextFactory: IDesignTimeDbContextFactory<MidasShopDbContext>
+public class MidasShopDbContextFactory : IDesignTimeDbContextFactory<MidasShopDbContext>
 {
     public MidasShopDbContext CreateDbContext(string[] args)
     {
@@ -12,9 +12,9 @@ public class MidasShopDbContextFactory: IDesignTimeDbContextFactory<MidasShopDbC
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
-        
+
         var connectionString = configuration.GetConnectionString("MidasShopSolutionDb");
-        
+
         var optionsBuilder = new DbContextOptionsBuilder<MidasShopDbContext>();
         optionsBuilder.UseSqlServer(connectionString);
 

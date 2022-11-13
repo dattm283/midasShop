@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MidasShopSolution.CustomerSite</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link id="themeTag" rel="stylesheet" href='~/themes/quartz/bootstrap.min.css' />
+    <link id="themeTag" rel="stylesheet" href='~/themes/sketchy/bootstrap.min.css' />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MidasShopSolution.CustomerSite.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/rating.css">
     <script src="https://kit.fontawesome.com/0ec71743ed.js" crossorigin="anonymous"></script>
     @RenderSection("Styles", false)
 </head>
@@ -41,6 +42,7 @@
                 </ul>
                 @if (User.Identity.Name != null)
                 {
+
                     <div class="nav-item dropdown me-sm-2 btn btn-secondary">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">
@@ -71,8 +73,6 @@
     <div id="mainBody">
         @RenderSection("carousel", required: false)
         <div class="container-fluid">
-            @* @await Component.InvokeAsync("Sidebar") *@
-            @* @RenderSection("sidebar", false) *@
             @RenderBody()
         </div>
     </div>

@@ -25,13 +25,21 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
-// builder.Services
-//     .AddScoped<IProductApiClient, ProductApiClient>();
+// builder.Services.AddTransient<ICommentApiClient, CommentApiClient>();
+
+// builder.Services.AddScoped<ICommentApiClient, CommentApiClient>();
 
 builder.Services
     .AddRefitClient<IProductApiClient>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001/"));
 
+builder.Services
+    .AddRefitClient<ICommentApiClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001/"));
+
+builder.Services
+    .AddRefitClient<ICategoryApiClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001/"));
 
 var app = builder.Build();
 

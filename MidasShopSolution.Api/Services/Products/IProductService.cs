@@ -15,7 +15,7 @@ public interface IProductService
     Task<int> Create(ProductCreateRequest request);
     Task<int> Update(ProductUpdateRequest request);
     Task<bool> UpdatePrice(int productId, decimal newPrice);
-    Task<bool> UpdateStock(int productId, int addedQuantity);
+    Task<bool> UpdateStar(int productId);
     Task AddViewCount(int productId);
     Task<bool> CategoryAssign(int id, CategoryAssignRequest request);
     Task<int> Delete(int productId);

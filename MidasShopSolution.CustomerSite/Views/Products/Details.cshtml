@@ -1,6 +1,8 @@
 @model MidasShopSolution.ViewModels.Products.ProductDto;
+@using MidasShopSolution.ViewModels.Comments;
 @{
     ViewData["Title"] = "Details";
+    var CommentList = ViewData["CommentList"];
 }
 @section Scripts {
 <script src="~/js/products/details/script.js"></script>
@@ -56,20 +58,34 @@
                                                         <li class="breadcrumb-item active">Library</li>
                                                     </ol>
                                                 </div>
-                                                <button class="btn btn-warning">
+                                                <button class="btn btn-warning ml-auto">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </button>
+                                                @* <h1>@ViewBag.userId</h1> *@
                                             </div>
                                             <div class="mt-4 mb-3"> <span
                                                     class="text-uppercase text-muted brand">Orianz</span>
                                                 <h5 class="text-uppercase">@Model.Name</h5>
-                                                <div class="price align-items-center">
-                                                    <p class="text-decoration-line-through">
-                                                        @Convert.ToInt32(Model.OriginalPrice).ToString()đ</p>
-                                                    <div>
-                                                        <p>@Convert.ToInt32(Model.Price).ToString()đ</p>
+
+                                                <div class="price align-items-center row">
+                                                    <div class="col-lg-6 col-sm-12">
+                                                        <h5 class="text-dark">@Convert.ToInt32(Model.Price).ToString()đ
+                                                        </h5>
                                                     </div>
+                                                    <p
+                                                        class="text-decoration-line-through text-danger col-lg-3 col-sm-12">
+                                                        @Convert.ToInt32(Model.OriginalPrice).ToString()đ</p>
                                                     @* <span>40% OFF</span> *@
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <p class="text-muted mb-0">Available: <span
+                                                            class="fw-bold">@Model.Stock</span>
+                                                    </p>
+                                                    <div class="ms-auto text-warning">
+                                                        <input class="rating" max="5" readonly step="0.01"
+                                                            style="--value;--value:@Model.ViewCount;--starsize:1.5rem"
+                                                            type="range" value="@Model.ViewCount">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <p class="about">@Model.Description</p>
@@ -85,21 +101,82 @@
                                                 <label class="radio"> <input type="radio" name="size" value="XXL">
                                                 <span>XXL</span> </label>
                                                 </div> *@
-                                            <div class="cart mt-4 align-items-center row ">
-                                                <button class="btn btn-primary text-uppercase col-md-6 col-sm-12">
-                                                    Add to cart
-                                                </button>
-                                                <div class="col-md-6 col-sm-12">
-                                                    <button class="btn btn btn-danger">
-                                                        <i class="fa fa-heart"></i>
-                                                    </button>
-                                                    <button class="btn btn-success">
-                                                        <i class="fa fa-share-alt"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="container text-dark">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-10">
+                            <div class="card">
+                                <div class="card-body p-4">
+                                    <div class="d-flex flex-start w-100 justify-content-center">
+                                        @if (User.Identity.Name != null)
+                                        {
+                                            <form class="w-100" method="post" action="/Comments">
+                                                <button type="button"
+                                                class="btn btn-primary disabled">@User.Identity.Name</button>
+                                                <h5>Add a comment</h5>
+                                                <div class="container">
+                                                    <label class="rating-label">
+                                                        <input class="rating" max="5" name="Rate"
+                                                        oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                        step="1" style="--value:5" type="range" value="5">
+                                                    </label>
+                                                </div>
+                                                <div class="form-outline">
+                                                    <textarea class="form-control" id="textAreaExample" name="Content"
+                                                    rows="4"></textarea>
+                                                    <label class="form-label" for="textAreaExample">What is your
+                                                        view?</label>
+                                                </div>
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                                                    </button>
+                                                </div>
+                                                <input type="hidden" name="ProductId" type="number" value=@Model.Id>
+                                                <input type="hidden" name="UserId" type="number" value=@ViewBag.userId>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-success" href="/Users/Login">
+                                                Login to Add a comment
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="p-2">
+                                    @foreach (var item in CommentList as ICollection<CommentDto>)
+                                    {
+                                        <div class="card mb-2">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Card title</h4>
+                                                <h6 class="card-subtitle mb-2 text-muted"><input class="rating" max="5"
+                                                    readonly step="0.01"
+                                                    style="--value;--value:@item.Rate;--starsize:1.5rem" type="range"
+                                                    value="@item.Rate"></h6>
+                                                <p class="card-text">@item.Content</p>
+                                                @if (User.Identity.Name != null)
+                                                {
+                                                    if (item.UserId.ToString() == ViewBag.userId)
+                                                    {
+                                                        <form class="w-100" method="post" action="/comments/delete/@item.Id">
+                                                            <a href="#" class="btn btn-link">Edit</a>
+                                                            <button type="submit" class="btn btn-link">Delete</button>
+                                                        </form>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

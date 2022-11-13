@@ -30,7 +30,8 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllProduct([FromQuery]PagingRequestBase request) {
+    public async Task<IActionResult> GetAllProduct([FromQuery] PagingRequestBase request)
+    {
         var products = await _productService.GetAllProduct(request);
         return Ok(products);
     }

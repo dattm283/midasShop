@@ -1,7 +1,7 @@
 function adjustTheme(themeName) {
     console.log(themeName)
     if (themeName == "") {
-        themeName = "quartz"
+        themeName = "sketchy"
     }
     $("#themeTag").attr("href", "/themes/" + themeName + "/bootstrap.min.css");
     delete_cookie("theme")

@@ -38,7 +38,7 @@ public class CategoryService : ICategoryService
         };
     }
 
-    public async Task<int> Create(CreateCategoryRequestDto request)
+    public async Task<int> Create(CategoryDto request)
     {
         var category = new Category()
         {

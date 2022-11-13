@@ -1,4 +1,5 @@
 using MidasShopSolution.Api.Services.Categories;
+using MidasShopSolution.Api.Services.Comments;
 using MidasShopSolution.Api.Services.Products;
 using MidasShopSolution.Api.Services.Users;
 using MidasShopSolution.Data.EF;
@@ -25,6 +26,7 @@ builder.Services.AddIdentity<User, Role>()
 // Declare DI
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
 builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();

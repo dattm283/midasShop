@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MidasShopSolution.CustomerSite.Models;
 using MidasShopSolution.CustomerSite.Services;
-using Microsoft.AspNetCore.Authorization;
-using MidasShopSolution.ViewModels.Products;
-
+using System.Security.Claims;
 
 namespace MidasShopSolution.CustomerSite.Controllers;
 
@@ -24,7 +22,18 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var user = User.Identity.Name;
+        var token = Request.Cookies[".AspNetCore.Cookies"];
+        var userId = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value;
+        // if (token != null)
+        // {
+        //     var tokenHandler = new JwtSecurityTokenHandler();
+        //     var userInfo = tokenHandler.ReadJwtToken(token);
+        //     // userName = userInfo.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value;
+        //     userId = userInfo.Claims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value;
+        //     ViewBag.userId = userId;
+        // }
         var FeaturedProducts = await _productApiClient.GetFeaturedProducts(3);
+
 
         return View(FeaturedProducts);
     }
