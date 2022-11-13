@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import UpdateForm from "./formUpdate";
 
@@ -16,7 +16,7 @@ export function UpdateButton({ productId }) {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            <Button variant="primary fa-fws" onClick={handleShow}>
                 <i class="fa-solid fa-pen-to-square"></i>
             </Button>
 

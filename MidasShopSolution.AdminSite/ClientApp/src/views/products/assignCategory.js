@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import AssignCategoryForm from "./assignCategoryForm";
 
@@ -16,7 +16,7 @@ export function AssignCategoryButton({ productId }) {
 
     return (
         <>
-            <Button variant="success" onClick={handleShow}>
+            <Button variant="success fa-fws" onClick={handleShow}>
                 <i class="fa-solid fa-paperclip"></i>
             </Button>
 
