@@ -19,6 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.CustomerS
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api.Test", "MidasShopSolution.Api.Test\MidasShopSolution.Api.Test.csproj", "{18613889-9D7A-4835-BB3F-F71BD1176F13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70DFE445-5F6B-435C-91F5-C3C0C42C5106} = {70DFE445-5F6B-435C-91F5-C3C0C42C5106}
+		{A1DA43FE-5CE9-4C29-8C51-FBD601C2318D} = {A1DA43FE-5CE9-4C29-8C51-FBD601C2318D}
+		{B7956D18-56F6-439B-807B-F51B19452625} = {B7956D18-56F6-439B-807B-F51B19452625}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidasShopSolution.Api", "MidasShopSolution.Api\MidasShopSolution.Api.csproj", "{70DFE445-5F6B-435C-91F5-C3C0C42C5106}"
 EndProject

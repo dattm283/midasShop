@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Button, Modal, Image } from "react-bootstrap";
+import { Container, Row, Button, ButtonGroup, Image } from "react-bootstrap";
 import Sidebar from "../../components/Sidebar/ProductSidebar";
 import ReactPaginate from 'react-paginate';
 import { UpdateButton } from "./update";
@@ -43,10 +43,22 @@ function Items({ currentItems }) {
                         <td>{product.originalPrice}</td>
                         <td>{product.stock}</td>
                         <td>{String(new Date(product.dateCreated))}</td>
-                        <td><AssignCategoryButton productId={product.id} /><UpdateButton productId={product.id} /> </td>
-                        <td> <Button variant="danger" type="button" className="delete-product-btn" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button> <GetProductImagesButton productId={product.id} /></td>
+                        <td>
+                            <ButtonGroup vertical>
+                                <ButtonGroup>
+                                    <UpdateButton productId={product.id} />
+                                    <AssignCategoryButton productId={product.id} />
+                                </ButtonGroup>
+                                <ButtonGroup>
+                                    <GetProductImagesButton productId={product.id} />
+                                    <Button variant="danger" type="button" className="delete-product-btn fa-fws" onClick={() => handleDeleteProduct(product.id)}><i class="fa-solid fa-trash"></i></Button>
+                                </ButtonGroup>
+                            </ButtonGroup>
+
+                        </td>
                     </tr>
-                )}
+                )
+            }
         </>
     );
 }
@@ -133,7 +145,6 @@ const Products = () => {
                             <th>Original Price</th>
                             <th>Stock</th>
                             <th>Date created</th>
-                            <th></th>
                             <th></th>
 
                         </tr>

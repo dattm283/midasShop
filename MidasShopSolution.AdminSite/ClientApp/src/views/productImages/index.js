@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Modal, Image } from "react-bootstrap";
+import { Row, Col, Form, Button, Modal, Image } from "react-bootstrap";
 import axios from "axios";
 import AssignCategoryForm from "../products/assignCategoryForm";
 import "../../custom.css";
@@ -60,7 +60,7 @@ export function GetProductImagesButton({ productId }) {
 
     return (
         <>
-            <Button variant="secondary" onClick={handleShow}>
+            <Button variant="secondary fa-fws" onClick={handleShow}>
                 <i class="fa-solid fa-image"></i>
             </Button>
 
